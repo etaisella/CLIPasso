@@ -451,8 +451,8 @@ class CLIPConvLoss(torch.nn.Module):
 
     def forward_inspection_clip_resnet(self, x):
         def stem(m, x):
-            for conv, bn in [(m.conv1, m.bn1), (m.conv2, m.bn2), (m.conv3, m.bn3)]:
-                x = m.relu(bn(conv(x)))
+            for conv, bn, relu in [(m.conv1, m.bn1, m.relu1), (m.conv2, m.bn2, m.relu2), (m.conv3, m.bn3, m.relu3)]:
+                x = relu(bn(conv(x)))
             x = m.avgpool(x)
             return x
         x = x.type(self.visual_model.conv1.weight.dtype)
