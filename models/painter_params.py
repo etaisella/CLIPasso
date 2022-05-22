@@ -70,7 +70,10 @@ class Painter(torch.nn.Module):
         N, C, H, W = 1, 3, 64, 64
         self.pixelArtImg = Variable(torch.randn(C, H, W), requires_grad=True)
         
-
+    
+    def get_PA_image(self):
+        return self.pixelArtImg
+    
     def init_image(self, stage=0):
         if stage > 0:
             # if multi stages training than add new strokes on existing ones
