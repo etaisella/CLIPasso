@@ -98,10 +98,6 @@ def main(args):
         optimizer.zero_grad_()
         sketches = renderer.get_image().to(args.device)
         PAimage = renderer.get_PA_image().to(args.device)
-        print("Sketches Shape:")
-        print(sketches.size())
-        print("PAimage Shape:")
-        print(PAimage.size())
         #losses_dict = loss_func(sketches, inputs.detach(
         #), renderer.get_color_parameters(), renderer, counter, optimizer)
         losses_dict = loss_func(PAimage, inputs.detach(
