@@ -52,7 +52,6 @@ def plot_batch(inputs, outputs, output_dir, step, use_wandb, title):
     plt.title("inputs")
 
     plt.subplot(2, 1, 2)
-    print(outputs.max())
     grid = make_grid(outputs, normalize=False, pad_value=2)
     npgrid = grid.detach().cpu().numpy()
     plt.imshow(np.transpose(npgrid, (1, 2, 0)), interpolation='nearest')
