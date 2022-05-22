@@ -34,6 +34,10 @@ def load_renderer(args, target_im=None, mask=None):
                        target_im=target_im,
                        mask=mask)
     renderer = renderer.to(args.device)
+    
+    print("Paremeter check")
+    print(renderer.parameters())
+    
     return renderer
 
 
