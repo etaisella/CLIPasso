@@ -177,15 +177,18 @@ class Painter(torch.nn.Module):
                     *scene_args)
         return img
     
-    #def parameters(self):
-        #self.points_vars = []
-        ## storkes' location optimization
-        #for i, path in enumerate(self.shapes):
-        #    if self.optimize_flag[i]:
-        #        path.points.requires_grad = True
-        #        self.points_vars.append(path.points)
-        #return self.points_vars 
-        #return self.pixelArtImg
+    def parameters(self):
+        if args.pixelArt:
+            return super(Painter, self).parameters()
+        else:
+            self.points_vars = []
+            # storkes' location optimization
+            for i, path in enumerate(self.shapes):
+                if self.optimize_flag[i]:
+                    path.points.requires_grad = True
+                    self.points_vars.append(path.points)
+            return self.points_vars 
+
     
     def get_points_parans(self):
         return self.points_vars
