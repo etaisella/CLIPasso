@@ -58,8 +58,10 @@ class Loss(nn.Module):
         loss_coeffs = dict.fromkeys(self.losses_to_apply, 1.0)
         loss_coeffs["clip"] = self.clip_weight
         loss_coeffs["clip_text"] = self.clip_text_guide
-
+        
+        print("losses")
         for loss_name in self.losses_to_apply:
+            print(loss_name)
             if loss_name in ["clip_conv_loss"]:
                 conv_loss = self.loss_mapper[loss_name](
                     sketches, targets, mode)
