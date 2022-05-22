@@ -181,7 +181,7 @@ class Painter(torch.nn.Module):
             if self.optimize_flag[i]:
                 path.points.requires_grad = True
                 self.points_vars.append(path.points)
-        return self.points_vars
+        return self.points_vars, self.pixelArtImg
     
     def get_points_parans(self):
         return self.points_vars
