@@ -106,7 +106,7 @@ def main(args):
         loss.backward()
         optimizer.step_()
         if epoch % args.save_interval == 0:
-            if args.pixelArt
+            if args.pixelArt:
                 utils.plot_batch(inputs, PAimage, f"{args.output_dir}/jpg_logs", counter,
                                 use_wandb=args.use_wandb, title=f"PA_iter{epoch}.jpg")
             else:
