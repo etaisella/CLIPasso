@@ -34,6 +34,7 @@ class Painter(torch.nn.Module):
         self.add_random_noise = "noise" in args.augemntations
         self.noise_thresh = args.noise_thresh
         self.softmax_temp = args.softmax_temp
+        self.pixelArt = args.pixelArt
 
         self.shapes = []
         self.shape_groups = []
@@ -176,7 +177,7 @@ class Painter(torch.nn.Module):
         return img
     
     def parameters(self):
-        if self.args.pixelArt:
+        if self.pixelArt:
             return super(Painter, self).parameters()
         else:
             self.points_vars = []
