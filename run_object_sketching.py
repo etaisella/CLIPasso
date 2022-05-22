@@ -33,6 +33,7 @@ parser.add_argument("--multiprocess", type=int, default=0,
                     help="recommended to use multiprocess if your computer has enough memory")
 parser.add_argument('-colab', action='store_true')
 parser.add_argument('-cpu', action='store_true')
+parser.add_argument('-pixelArt', action='store_true')
 args = parser.parse_args()
 
 multiprocess = not args.colab and args.num_sketches > 1 and args.multiprocess
