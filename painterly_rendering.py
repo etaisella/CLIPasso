@@ -32,8 +32,8 @@ def load_renderer(args, target_im=None, mask=None):
                        imsize=args.image_scale,
                        device=args.device,
                        target_im=target_im,
-                       mask=mask
-                       pixelArt = args.pixelArt)
+                       pixelArt=args.pixelArt,
+                       mask=mask)
     renderer = renderer.to(args.device)
     return renderer
 
