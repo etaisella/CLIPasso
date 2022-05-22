@@ -102,8 +102,6 @@ class Painter(torch.nn.Module):
             for i in range(num_paths_exists, self.num_paths):
                 stroke_color = torch.tensor([0.0, 0.0, 0.0, 1.0])
                 path = self.get_path()
-                print("path")
-                print(path)
                 self.shapes.append(path)
                 path_group = pydiffvg.ShapeGroup(shape_ids = torch.tensor([len(self.shapes) - 1]),
                                                     fill_color = None,
