@@ -38,6 +38,7 @@ args = parser.parse_args()
 
 if not args.pixelArt:
   args.pixelArt = False
+  print(args.pixelArt)
 
 multiprocess = not args.colab and args.num_sketches > 1 and args.multiprocess
 abs_path = os.path.abspath(os.getcwd())
