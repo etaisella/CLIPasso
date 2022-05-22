@@ -36,10 +36,6 @@ parser.add_argument('-cpu', action='store_true')
 parser.add_argument('-pixelArt', action='store_true')
 args = parser.parse_args()
 
-if not args.pixelArt:
-  args.pixelArt = False
-  print(args.pixelArt)
-
 multiprocess = not args.colab and args.num_sketches > 1 and args.multiprocess
 abs_path = os.path.abspath(os.getcwd())
 
@@ -91,7 +87,8 @@ def run(seed, wandb_name):
                             "--mask_object", str(args.mask_object),
                             "--mask_object_attention", str(
                                 args.mask_object),
-                            "--display_logs", str(int(args.colab))])
+                            "--display_logs", str(int(args.colab)),
+                            "-pixelArt"])
     if exit_code.returncode:
         sys.exit(1)
 
