@@ -87,8 +87,7 @@ def run(seed, wandb_name):
                             "--mask_object", str(args.mask_object),
                             "--mask_object_attention", str(
                                 args.mask_object),
-                            "--display_logs", str(int(args.colab)),
-                            "--pixelArt", str(int(args.pixelArt))])
+                            "--display_logs", str(int(args.colab))])
     if exit_code.returncode:
         sys.exit(1)
 
