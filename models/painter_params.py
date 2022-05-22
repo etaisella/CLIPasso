@@ -11,6 +11,7 @@ from scipy.ndimage.filters import gaussian_filter
 from skimage.color import rgb2gray
 from skimage.filters import threshold_otsu
 from torchvision import transforms
+from torch.autograd import Variable
 
 
 class Painter(torch.nn.Module):
