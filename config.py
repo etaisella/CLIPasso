@@ -84,8 +84,8 @@ def parse_arguments():
                         help="the type of perceptual loss to be used (L2/LPIPS/none)")
     parser.add_argument("--perceptual_weight", type=float, default=0,
                         help="weight the perceptual loss")
-    parser.add_argument("--train_with_clip", type=int, default=0)
-    parser.add_argument("--clip_weight", type=float, default=0)
+    parser.add_argument("--train_with_clip", type=int, default=1)
+    parser.add_argument("--clip_weight", type=float, default=0.1)
     parser.add_argument("--start_clip", type=int, default=0)
     parser.add_argument("--num_aug_clip", type=int, default=4)
     parser.add_argument("--include_target_in_aug", type=int, default=0)
