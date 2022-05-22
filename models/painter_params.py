@@ -64,6 +64,12 @@ class Painter(torch.nn.Module):
         self.epoch = 0
         self.final_epoch = args.num_iter - 1
         
+        ### Pixel Art Canvas ###
+        print("Setting PA canvas in class init")
+        dtype = torch.int8
+        C, H, W = 3, 64, 64
+        self.pixelArtImg = Variable(torch.zeros(C, H, W).type(dtype), requires_grad=True)
+        
 
     def init_image(self, stage=0):
         if stage > 0:
