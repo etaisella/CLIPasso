@@ -34,10 +34,6 @@ def load_renderer(args, target_im=None, mask=None):
                        target_im=target_im,
                        mask=mask)
     renderer = renderer.to(args.device)
-    
-    print("Paremeter check")
-    print(renderer.parameters())
-    
     return renderer
 
 
@@ -96,28 +92,37 @@ def main(args):
 
         start = time.time()
         optimizer.zero_grad_()
-        sketches = renderer.get_image().to(args.device)
-        PAimage = renderer.get_PA_image().to(args.device)
-        #losses_dict = loss_func(sketches, inputs.detach(
-        #), renderer.get_color_parameters(), renderer, counter, optimizer)
-        losses_dict = loss_func(PAimage, inputs.detach(
-        ), renderer.get_color_parameters(), renderer, counter, optimizer)
+        
+        if args.pixelArt:
+            PAimage = renderer.get_PA_image().to(args.device)
+            losses_dict = loss_func(PAimage, inputs.detach(
+            ), renderer.get_color_parameters(), renderer, counter, optimizer)
+        else:
+            sketches = renderer.get_image().to(args.device)
+            losses_dict = loss_func(sketches, inputs.detach(
+            ), renderer.get_color_parameters(), renderer, counter, optimizer)
+            
         loss = sum(list(losses_dict.values()))
         loss.backward()
         optimizer.step_()
         if epoch % args.save_interval == 0:
-            utils.plot_batch(inputs, sketches, f"{args.output_dir}/jpg_logs", counter,
-                             use_wandb=args.use_wandb, title=f"iter{epoch}.jpg")
-            utils.plot_batch(inputs, PAimage, f"{args.output_dir}/jpg_logs", counter,
-                             use_wandb=args.use_wandb, title=f"PA_iter{epoch}.jpg")
+            if args.pixelArt
+                utils.plot_batch(inputs, PAimage, f"{args.output_dir}/jpg_logs", counter,
+                                use_wandb=args.use_wandb, title=f"PA_iter{epoch}.jpg")
+            else:
+                utils.plot_batch(inputs, sketches, f"{args.output_dir}/jpg_logs", counter,
+                                use_wandb=args.use_wandb, title=f"iter{epoch}.jpg")
             renderer.save_svg(
                 f"{args.output_dir}/svg_logs", f"svg_iter{epoch}")
         if epoch % args.eval_interval == 0:
+            
             with torch.no_grad():
-                #losses_dict_eval = loss_func(sketches, inputs, renderer.get_color_parameters(
-                #), renderer.get_points_parans(), counter, optimizer, mode="eval")
-                losses_dict_eval = loss_func(PAimage, inputs, renderer.get_color_parameters(
-                ), renderer.get_points_parans(), counter, optimizer, mode="eval")
+                if args.pixelArt:
+                    losses_dict_eval = loss_func(PAimage, inputs, renderer.get_color_parameters(
+                    ), renderer.get_points_parans(), counter, optimizer, mode="eval")
+                else:
+                    losses_dict_eval = loss_func(sketches, inputs, renderer.get_color_parameters(
+                    ), renderer.get_points_parans(), counter, optimizer, mode="eval")
                 loss_eval = sum(list(losses_dict_eval.values()))
                 configs_to_save["loss_eval"].append(loss_eval.item())
                 for k in losses_dict_eval.keys():
@@ -138,8 +143,13 @@ def main(args):
                         best_loss = loss_eval.item()
                         best_iter = epoch
                         terminate = False
-                        utils.plot_batch(
-                            inputs, sketches, args.output_dir, counter, use_wandb=args.use_wandb, title="best_iter.jpg")
+                        if args.pixelArt:
+                            utils.plot_batch(
+                                inputs, PAimage, args.output_dir, counter, use_wandb=args.use_wandb, title="best_iter.jpg")
+                        else:
+                            utils.plot_batch(
+                                inputs, sketches, args.output_dir, counter, use_wandb=args.use_wandb, title="best_iter.jpg")
+                            
                         renderer.save_svg(args.output_dir, "best_iter")
 
                 if args.use_wandb:
