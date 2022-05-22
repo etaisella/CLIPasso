@@ -21,6 +21,7 @@ class Painter(torch.nn.Module):
                 imsize=224,
                 device=None,
                 target_im=None,
+                pixelArt=False,
                 mask=None):
         super(Painter, self).__init__()
 
@@ -34,7 +35,7 @@ class Painter(torch.nn.Module):
         self.add_random_noise = "noise" in args.augemntations
         self.noise_thresh = args.noise_thresh
         self.softmax_temp = args.softmax_temp
-        self.pixelArt = args.pixelArt
+        self.pixelArt = pixelArt
 
         self.shapes = []
         self.shape_groups = []
