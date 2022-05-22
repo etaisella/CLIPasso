@@ -25,7 +25,7 @@ class Loss(nn.Module):
         print(args.clip_conv_loss)
         self.clip_conv_loss = args.clip_conv_loss
         
-        rint("clip_fc_loss_weight")
+        print("clip_fc_loss_weight")
         print(args.clip_fc_loss_weight)
         self.clip_fc_loss_weight = args.clip_fc_loss_weight
         self.clip_text_guide = args.clip_text_guide
