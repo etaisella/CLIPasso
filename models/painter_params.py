@@ -68,7 +68,7 @@ class Painter(torch.nn.Module):
         ### Pixel Art Canvas ###
         print("Setting PA canvas in class init")
         N, C, H, W = 1, 3, 64, 64
-        self.pixelArtImg = Variable(torch.clamp(torch.randn(C, H, W), min=0.0, max=1.0), requires_grad=True)
+        self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(C, H, W), min=0.0, max=1.0), requires_grad=True)
         
     
     def get_PA_image(self):
