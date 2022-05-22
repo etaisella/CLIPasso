@@ -11,12 +11,22 @@ class Loss(nn.Module):
         super(Loss, self).__init__()
         self.args = args
         self.percep_loss = args.percep_loss
-
+        
+        print("train_with_clip")
+        print(args.train_with_clip)
         self.train_with_clip = args.train_with_clip
+        
+        print("clip_weight")
+        print(args.clip_weight)
         self.clip_weight = args.clip_weight
         self.start_clip = args.start_clip
-
+        
+        print("clip_conv_loss")
+        print(args.clip_conv_loss)
         self.clip_conv_loss = args.clip_conv_loss
+        
+        rint("clip_fc_loss_weight")
+        print(args.clip_fc_loss_weight)
         self.clip_fc_loss_weight = args.clip_fc_loss_weight
         self.clip_text_guide = args.clip_text_guide
 
