@@ -36,6 +36,9 @@ parser.add_argument('-cpu', action='store_true')
 parser.add_argument('-pixelArt', action='store_true')
 args = parser.parse_args()
 
+if not args.pixelArt:
+  args.pixelArt = False
+
 multiprocess = not args.colab and args.num_sketches > 1 and args.multiprocess
 abs_path = os.path.abspath(os.getcwd())
 
