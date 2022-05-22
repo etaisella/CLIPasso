@@ -178,7 +178,7 @@ class Painter(torch.nn.Module):
         return img
     
     def parameters(self):
-        if args.pixelArt:
+        if self.args.pixelArt:
             return super(Painter, self).parameters()
         else:
             self.points_vars = []
