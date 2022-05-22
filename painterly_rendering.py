@@ -94,7 +94,9 @@ def main(args):
         optimizer.zero_grad_()
         sketches = renderer.get_image().to(args.device)
         PAimage = renderer.get_PA_image().to(args.device)
-        losses_dict = loss_func(sketches, inputs.detach(
+        #losses_dict = loss_func(sketches, inputs.detach(
+        #), renderer.get_color_parameters(), renderer, counter, optimizer)
+        losses_dict = loss_func(PAimage, inputs.detach(
         ), renderer.get_color_parameters(), renderer, counter, optimizer)
         loss = sum(list(losses_dict.values()))
         loss.backward()
@@ -108,7 +110,9 @@ def main(args):
                 f"{args.output_dir}/svg_logs", f"svg_iter{epoch}")
         if epoch % args.eval_interval == 0:
             with torch.no_grad():
-                losses_dict_eval = loss_func(sketches, inputs, renderer.get_color_parameters(
+                #losses_dict_eval = loss_func(sketches, inputs, renderer.get_color_parameters(
+                #), renderer.get_points_parans(), counter, optimizer, mode="eval")
+                losses_dict_eval = loss_func(PAimage, inputs, renderer.get_color_parameters(
                 ), renderer.get_points_parans(), counter, optimizer, mode="eval")
                 loss_eval = sum(list(losses_dict_eval.values()))
                 configs_to_save["loss_eval"].append(loss_eval.item())
