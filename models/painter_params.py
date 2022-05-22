@@ -73,7 +73,7 @@ class Painter(torch.nn.Module):
         
     
     def get_PA_image(self):
-        return torch.clamp(self.upsample(self.pixelArtImg), min=0.0, max=1.0)
+        return self.upsample(self.pixelArtImg)
     
     def init_image(self, stage=0):
         if stage > 0:
