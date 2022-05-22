@@ -93,6 +93,7 @@ def main(args):
         start = time.time()
         optimizer.zero_grad_()
         sketches = renderer.get_image().to(args.device)
+        PAimage = renderer.get_PA_image().to(args.device)
         losses_dict = loss_func(sketches, inputs.detach(
         ), renderer.get_color_parameters(), renderer, counter, optimizer)
         loss = sum(list(losses_dict.values()))
@@ -101,6 +102,8 @@ def main(args):
         if epoch % args.save_interval == 0:
             utils.plot_batch(inputs, sketches, f"{args.output_dir}/jpg_logs", counter,
                              use_wandb=args.use_wandb, title=f"iter{epoch}.jpg")
+            utils.plot_batch(inputs, PAimage, f"{args.output_dir}/jpg_logs", counter,
+                             use_wandb=args.use_wandb, title=f"PA_iter{epoch}.jpg")
             renderer.save_svg(
                 f"{args.output_dir}/svg_logs", f"svg_iter{epoch}")
         if epoch % args.eval_interval == 0:
