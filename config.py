@@ -32,7 +32,8 @@ def parse_arguments():
     parser.add_argument("--mask_object", type=int, default=0)
     parser.add_argument("--fix_scale", type=int, default=0)
     parser.add_argument("--display_logs", type=int, default=0)
-    parser.add_argument("--pixelArt", type=int, default=1)
+    parser.add_argument("--pixelArt", type=int, default=0)
+    parser.add_argument("--display", type=int, default=0)
 
     # =================================
     # ============ wandb ============
@@ -135,3 +136,10 @@ def parse_arguments():
     pydiffvg.set_use_gpu(torch.cuda.is_available() and args.use_gpu)
     pydiffvg.set_device(args.device)
     return args
+
+
+if __name__ == "__main__":
+    # for cog predict
+    args = parse_arguments()
+    final_config = vars(args)
+    np.save(f"{args.output_dir}/config_init.npy", final_config)
