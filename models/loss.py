@@ -1,4 +1,3 @@
-
 import collections
 import CLIP_.clip as clip
 import torch
@@ -11,22 +10,12 @@ class Loss(nn.Module):
         super(Loss, self).__init__()
         self.args = args
         self.percep_loss = args.percep_loss
-        
-        print("train_with_clip")
-        print(args.train_with_clip)
+
         self.train_with_clip = args.train_with_clip
-        
-        print("clip_weight")
-        print(args.clip_weight)
         self.clip_weight = args.clip_weight
         self.start_clip = args.start_clip
-        
-        print("clip_conv_loss")
-        print(args.clip_conv_loss)
+
         self.clip_conv_loss = args.clip_conv_loss
-        
-        print("clip_fc_loss_weight")
-        print(args.clip_fc_loss_weight)
         self.clip_fc_loss_weight = args.clip_fc_loss_weight
         self.clip_text_guide = args.clip_text_guide
 
@@ -65,7 +54,7 @@ class Loss(nn.Module):
         loss_coeffs = dict.fromkeys(self.losses_to_apply, 1.0)
         loss_coeffs["clip"] = self.clip_weight
         loss_coeffs["clip_text"] = self.clip_text_guide
-        
+
         for loss_name in self.losses_to_apply:
             if loss_name in ["clip_conv_loss"]:
                 conv_loss = self.loss_mapper[loss_name](
@@ -458,8 +447,8 @@ class CLIPConvLoss(torch.nn.Module):
 
     def forward_inspection_clip_resnet(self, x):
         def stem(m, x):
-            for conv, bn, relu in [(m.conv1, m.bn1, m.relu1), (m.conv2, m.bn2, m.relu2), (m.conv3, m.bn3, m.relu3)]:
-                x = relu(bn(conv(x)))
+            for conv, bn in [(m.conv1, m.bn1), (m.conv2, m.bn2), (m.conv3, m.bn3)]:
+                x = m.relu(bn(conv(x)))
             x = m.avgpool(x)
             return x
         x = x.type(self.visual_model.conv1.weight.dtype)
@@ -470,4 +459,3 @@ class CLIPConvLoss(torch.nn.Module):
         x4 = self.layer4(x3)
         y = self.att_pool2d(x4)
         return y, [x, x1, x2, x3, x4]
-        
