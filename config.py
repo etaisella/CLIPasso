@@ -41,7 +41,7 @@ def parse_arguments():
     parser.add_argument("--canvasW", type=int, default=32)
     parser.add_argument("--canvasH", type=int, default=32)
     parser.add_argument("--quantizeColors", type=int, default=1)
-    parser.add_argument("--numColors", type=int, default=64)
+    parser.add_argument("--numColors", type=int, default=32)
 
     # =================================
     # ============ wandb ============
@@ -59,7 +59,7 @@ def parse_arguments():
     parser.add_argument("--num_stages", type=int, default=1,
                         help="training stages, you can train x strokes, then freeze them and train another x strokes etc.")
     parser.add_argument("--lr_scheduler", type=int, default=0)
-    parser.add_argument("--lr", type=float, default=3.0)
+    parser.add_argument("--lr", type=float, default=1.5)
     parser.add_argument("--color_lr", type=float, default=1.00)
     parser.add_argument("--color_vars_threshold", type=float, default=0.0)
     parser.add_argument("--batch_size", type=int, default=1,
