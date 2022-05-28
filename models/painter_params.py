@@ -13,6 +13,7 @@ from skimage.filters import threshold_otsu
 from torchvision import transforms
 from torch.autograd import Variable
 import cv2 as cv
+import matplotlib.pyplot as plt
 
 
 class Painter(torch.nn.Module):
@@ -77,7 +78,9 @@ class Painter(torch.nn.Module):
         
         # Color Quantization - Selecting colors
         np_image = (torch.squeeze(target_im)).cpu().numpy()
-        Z = np_image[...,[0, 2, 1]].copy().reshape((-1,3))
+        plt.imshow(np_image)
+        plt.show()
+        Z = np_image.reshape((-1,3))
         criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
         _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
         print("color centers:")
