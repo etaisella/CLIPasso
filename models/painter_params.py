@@ -98,7 +98,7 @@ class Painter(torch.nn.Module):
         repeated = clamped.repeat(self.num_colors, 1, 1, 1)
         distances = torch.sum((repeated - self.centers) * (repeated - self.centers), dim=1, keepdim=False)
         print(distances.size())
-        center_idx = self.softmin(distances)
+        center_idx = self.softmin(distances*1000)
         print("center idxs")
         print(center_idx.size())
         print(torch.max(center_idx))
