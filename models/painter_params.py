@@ -95,7 +95,8 @@ class Painter(torch.nn.Module):
         upsampled = self.upsample(clamped)
         
         repeated = clamped.repeat(self.num_colors, 1, 1, 1)
-        print(repeated.size())
+        distances = repeated - self.centers
+        print(distances.size())
         return upsampled
     
     def init_image(self, stage=0):
