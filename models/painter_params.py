@@ -106,7 +106,7 @@ class Painter(torch.nn.Module):
         
         repeated = clamped.repeat(self.num_colors, 1, 1, 1)
         distances = torch.sum((repeated - self.centers) * (repeated - self.centers), dim=1, keepdim=False)
-        center_idx = self.softmin(distances*1000)
+        center_idx = self.softmin(distances*100)
         center_idx = torch.unsqueeze(center_idx, 1)
         center_idx_rgb = center_idx.repeat(1, 3, 1, 1)     
         quantized_img = torch.sum(center_idx_rgb * self.centers, dim=0, keepdim=True)
