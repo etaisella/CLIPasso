@@ -91,6 +91,7 @@ class Painter(torch.nn.Module):
         rand_selected_colors = torch.unsqueeze((torch.squeeze(self.centers[rand_idxs])).permute(2, 0, 1), 0)
         #self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=0.0, max=1.0), requires_grad=True)
         print(rand_selected_colors)
+        rand_selected_colors = (rand_selected_colors * 20) - 10 
         self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
     
     def quantize_image(self, clamped):
