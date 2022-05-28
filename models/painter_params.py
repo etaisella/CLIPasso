@@ -87,15 +87,15 @@ class Painter(torch.nn.Module):
         print("color centers:")
         print(centers)
         self.centers = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1)
-        print(self.centers.size())
-        
-     
         
     
     def get_PA_image(self):
         clamped = torch.clamp(self.pixelArtImg, -10, 10)
         clamped = (clamped + 10) / 20
         upsampled = self.upsample(clamped)
+        
+        repeated = clamped.repeat(self.num_colors)
+        print(repeated.size)
         return upsampled
     
     def init_image(self, stage=0):
