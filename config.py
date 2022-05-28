@@ -111,7 +111,7 @@ def parse_arguments():
     parser.add_argument("--clip_conv_layer_weights",
                         type=str, default="0,0,1.0,1.0,0")
     parser.add_argument("--clip_model_name", type=str, default="RN101")
-    parser.add_argument("--clip_fc_loss_weight", type=float, default=3.0)
+    parser.add_argument("--clip_fc_loss_weight", type=float, default=1.5)
     parser.add_argument("--clip_text_guide", type=float, default=0)
     parser.add_argument("--text_target", type=str, default="none")
 
