@@ -87,7 +87,7 @@ class Painter(torch.nn.Module):
         # initiating canvas
         print("Setting PA canvas in class init")
         N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
-        rand_idxs = torch.randint(low=0, high=self.num_colors -1, (H, W))
+        rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
         init_test = self.centers[rand_idxs]
         print("init_test:")
         print(init_test.size())
