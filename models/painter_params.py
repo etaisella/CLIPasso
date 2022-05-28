@@ -78,8 +78,6 @@ class Painter(torch.nn.Module):
         
         # Color Quantization - Selecting colors
         np_image = (torch.squeeze(target_im).permute(1, 2, 0)).cpu().numpy()
-        plt.imshow(np_image)
-        plt.show()
         Z = np_image.reshape((-1,3))
         criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
         _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
@@ -114,16 +112,6 @@ class Painter(torch.nn.Module):
         
         quantized_img = self.quantize_image(clamped)
         upsampled = self.upsample(quantized_img)
-        
-        '''
-        print(distances.size())
-        print("center idxs")
-        print(center_idx.size())
-        print(torch.max(center_idx))
-        print(torch.min(center_idx))
-        print(center_idx_rgb.size())
-        print(quantized_img.size())
-        '''
         
         return upsampled
     
