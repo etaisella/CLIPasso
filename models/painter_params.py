@@ -12,6 +12,7 @@ from skimage.color import rgb2gray
 from skimage.filters import threshold_otsu
 from torchvision import transforms
 from torch.autograd import Variable
+import cv2 as cv
 
 
 class Painter(torch.nn.Module):
