@@ -60,7 +60,7 @@ def parse_arguments():
                         help="training stages, you can train x strokes, then freeze them and train another x strokes etc.")
     parser.add_argument("--lr_scheduler", type=int, default=0)
     parser.add_argument("--lr", type=float, default=1.0)
-    parser.add_argument("--color_lr", type=float, default=0.01)
+    parser.add_argument("--color_lr", type=float, default=0.05)
     parser.add_argument("--color_vars_threshold", type=float, default=0.0)
     parser.add_argument("--batch_size", type=int, default=1,
                         help="for optimization it's only one image")
