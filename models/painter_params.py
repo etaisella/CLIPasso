@@ -80,6 +80,7 @@ class Painter(torch.nn.Module):
         self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=0.0, max=1.0), requires_grad=True)
         
         # Color Quantization - Selecting colors
+        self.softmin = torch.nn.softmin(dim=0)
         np_image = (torch.squeeze(target_im)).cpu().numpy()
         Z = np_image.reshape((-1,3))
         criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
@@ -97,6 +98,11 @@ class Painter(torch.nn.Module):
         repeated = clamped.repeat(self.num_colors, 1, 1, 1)
         distances = torch.sum((repeated - self.centers) * (repeated - self.centers), dim=1, keepdim=False)
         print(distances.size())
+        center_idx = self.softmin(distances)
+        print("center idxs")
+        print(center_idx.size())
+        print(torch.max(center_idx))
+        print(torch.min(center_idx))
         return upsampled
     
     def init_image(self, stage=0):
