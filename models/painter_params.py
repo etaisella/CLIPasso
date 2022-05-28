@@ -88,11 +88,9 @@ class Painter(torch.nn.Module):
         print("Setting PA canvas in class init")
         N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
         rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
-        init_test = torch.unsqueeze((torch.squeeze(self.centers[rand_idxs])).permute(2, 0, 1), 0)
-        print("init_test:")
-        print(init_test.size())
-        self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=0.0, max=1.0), requires_grad=True)
-        self.pixelArtImg = init_test
+        rand_selected_colors = torch.unsqueeze((torch.squeeze(self.centers[rand_idxs])).permute(2, 0, 1), 0)
+        #self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=0.0, max=1.0), requires_grad=True)
+        self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
     
     def quantize_image(self, clamped):
         clamped = torch.clamp(self.pixelArtImg, -10, 10)
