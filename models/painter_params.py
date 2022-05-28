@@ -72,15 +72,10 @@ class Painter(torch.nn.Module):
         self.canvas_width = 32
         self.canvas_height = 32
         self.num_colors = 8
-        
-        # initiating canvas
+        self.softmin = torch.nn.Softmin(dim=0)
         self.upsample = torch.nn.Upsample(size=(224, 224), mode='nearest')
-        print("Setting PA canvas in class init")
-        N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
-        self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=0.0, max=1.0), requires_grad=True)
         
         # Color Quantization - Selecting colors
-        self.softmin = torch.nn.Softmin(dim=0)
         np_image = (torch.squeeze(target_im)).cpu().numpy()
         Z = np_image.reshape((-1,3))
         criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
@@ -89,8 +84,16 @@ class Painter(torch.nn.Module):
         print(centers)
         self.centers = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
         
+        # initiating canvas
+        print("Setting PA canvas in class init")
+        N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
+        rand_idxs = torch.randint(low=0, high=self.num_colors -1, (H, W))
+        init_test = self.centers[rand_idxs]
+        print("init_test:")
+        print(init_test.size())
+        self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=0.0, max=1.0), requires_grad=True)
     
-    def get_PA_image(self):
+    def quantize_image(self, clamped):
         clamped = torch.clamp(self.pixelArtImg, -10, 10)
         clamped = (clamped + 10) / 20
         #upsampled = self.upsample(clamped)
@@ -101,6 +104,14 @@ class Painter(torch.nn.Module):
         center_idx = torch.unsqueeze(center_idx, 1)
         center_idx_rgb = center_idx.repeat(1, 3, 1, 1)     
         quantized_img = torch.sum(center_idx_rgb * self.centers, dim=0, keepdim=True)
+        return quantized_img
+    
+    def get_PA_image(self):
+        clamped = torch.clamp(self.pixelArtImg, -10, 10)
+        clamped = (clamped + 10) / 20
+        #upsampled = self.upsample(clamped)
+        
+        quantized_img = self.quantize_image(clamped)
         upsampled = self.upsample(quantized_img)
         
         '''
