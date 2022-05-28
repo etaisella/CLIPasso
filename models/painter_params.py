@@ -93,7 +93,7 @@ class Painter(torch.nn.Module):
     def get_PA_image(self):
         clamped = torch.clamp(self.pixelArtImg, -10, 10)
         clamped = (clamped + 10) / 20
-        upsampled = self.upsample(clamped)
+        #upsampled = self.upsample(clamped)
         
         repeated = clamped.repeat(self.num_colors, 1, 1, 1)
         distances = torch.sum((repeated - self.centers) * (repeated - self.centers), dim=1, keepdim=False)
@@ -108,6 +108,8 @@ class Painter(torch.nn.Module):
         print(center_idx_rgb.size())
         quantized_img = torch.sum(center_idx_rgb * self.centers, dim=0, keepdim=True)
         print(quantized_img.size())
+        upsampled = self.upsample(quantized_img)
+        
         return upsampled
     
     def init_image(self, stage=0):
