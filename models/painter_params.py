@@ -77,7 +77,7 @@ class Painter(torch.nn.Module):
         
         # Color Quantization - Selecting colors
         np_image = (torch.squeeze(target_im)).cpu().numpy()
-        Z = np_image[...,::-1].copy().reshape((-1,3))
+        Z = np_image[...,[2,0,1]].copy().reshape((-1,3))
         criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
         _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
         print("color centers:")
