@@ -106,6 +106,8 @@ class Painter(torch.nn.Module):
         center_idx = torch.unsqueeze(center_idx, 1)
         center_idx_rgb = center_idx.repeat(1, 3, 1, 1)
         print(center_idx_rgb.size())
+        quantized_img = torch.sum(center_idx_rgb * self.centers, dim=0, keepdim=True)
+        print(quantized_img.size())
         return upsampled
     
     def init_image(self, stage=0):
