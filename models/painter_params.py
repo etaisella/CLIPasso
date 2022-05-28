@@ -94,7 +94,7 @@ class Painter(torch.nn.Module):
         clamped = (clamped + 10) / 20
         upsampled = self.upsample(clamped)
         
-        repeated = clamped.repeat(self.num_colors)
+        repeated = clamped.repeat(self.num_colors, 1, 1, 1)
         print(repeated.size)
         return upsampled
     
