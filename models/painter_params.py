@@ -70,27 +70,32 @@ class Painter(torch.nn.Module):
         self.final_epoch = args.num_iter - 1
         
         ### Pixel Art Canvas ###
-        self.canvas_width = 32
-        self.canvas_height = 32
-        self.num_colors = 2048*2
-        self.softmin = torch.nn.Softmin(dim=0)
-        self.upsample = torch.nn.Upsample(size=(224, 224), mode='nearest')
+        self.doPixelArt = args.pixelArt
+        self.doColorQuantization = args.quantizeColors
+        if self.doPixelArt:
+            self.canvas_width = args.canvasW
+            self.canvas_height = args.canvasH
+            self.num_colors = args.numColors
+            self.softmin = torch.nn.Softmin(dim=0)
+            self.upsample = torch.nn.Upsample(size=(224, 224), mode='nearest')
         
-        # Color Quantization - Selecting colors
-        np_image = (torch.squeeze(target_im).permute(1, 2, 0)).cpu().numpy()
-        Z = np_image.reshape((-1,3))
-        criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
-        _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
-        self.centers = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
-        
-        # initiating canvas
-        print("Setting PA canvas in class init")
-        N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
-        rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
-        rand_selected_colors = torch.unsqueeze((torch.squeeze(self.centers[rand_idxs])).permute(2, 0, 1), 0)
-        rand_selected_colors = (rand_selected_colors * 20) - 10 
-        #self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=-1.0, max=1.0), requires_grad=True)
-        self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
+            # Color Quantization - Selecting colors
+            np_image = (torch.squeeze(target_im).permute(1, 2, 0)).cpu().numpy()
+            plt.imshow(np_image)
+            plt.show()
+            Z = np_image.reshape((-1,3))
+            criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+            _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
+            self.centers = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
+            
+            # initiating canvas
+            print("Setting PA canvas in class init")
+            N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
+            rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
+            rand_selected_colors = torch.unsqueeze((torch.squeeze(self.centers[rand_idxs])).permute(2, 0, 1), 0)
+            rand_selected_colors = (rand_selected_colors * 20) - 10 
+            #self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=-1.0, max=1.0), requires_grad=True)
+            self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
     
     def quantize_image(self, clamped):
         clamped = torch.clamp(self.pixelArtImg, -10, 10)
@@ -108,10 +113,12 @@ class Painter(torch.nn.Module):
     def get_PA_image(self):
         clamped = torch.clamp(self.pixelArtImg, -10, 10)
         clamped = (clamped + 10) / 20
-        #upsampled = self.upsample(clamped)
         
-        quantized_img = self.quantize_image(clamped)
-        upsampled = self.upsample(quantized_img)
+        if self.doColorQuantization:
+            quantized_img = self.quantize_image(clamped)
+            upsampled = self.upsample(quantized_img)
+        else:
+            upsampled = self.upsample(clamped)
         
         return upsampled
     
