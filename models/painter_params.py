@@ -103,6 +103,9 @@ class Painter(torch.nn.Module):
         print(center_idx.size())
         print(torch.max(center_idx))
         print(torch.min(center_idx))
+        center_idx = torch.unsqueeze(center_idx, 1)
+        center_idx_rgb = center_idx.repeat(1, 3, 1, 1)
+        print(center_idx_rgb.size())
         return upsampled
     
     def init_image(self, stage=0):
