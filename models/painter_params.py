@@ -86,7 +86,7 @@ class Painter(torch.nn.Module):
         _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
         print("color centers:")
         print(centers)
-        self.centers = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1)
+        self.centers = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
         
     
     def get_PA_image(self):
