@@ -77,7 +77,7 @@ class Painter(torch.nn.Module):
         self.upsample = torch.nn.Upsample(size=(224, 224), mode='nearest')
         
         # Color Quantization - Selecting colors
-        np_image = (torch.squeeze(target_im.permute(2, 0, 1))).cpu().numpy()
+        np_image = (torch.squeeze(target_im).permute(2, 0, 1)).cpu().numpy()
         plt.imshow(np_image)
         plt.show()
         Z = np_image.reshape((-1,3))
