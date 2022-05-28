@@ -72,7 +72,7 @@ class Painter(torch.nn.Module):
         ### Pixel Art Canvas ###
         self.canvas_width = 32
         self.canvas_height = 32
-        self.num_colors = 256*256
+        self.num_colors = 50176
         self.softmin = torch.nn.Softmin(dim=0)
         self.upsample = torch.nn.Upsample(size=(224, 224), mode='nearest')
         
