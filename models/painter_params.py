@@ -72,15 +72,15 @@ class Painter(torch.nn.Module):
         print("Setting PA canvas in class init")
         N, C, H, W = 1, 3, 32, 32
         self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=0.0, max=1.0), requires_grad=True)
-        '''
+        # Color Quantization - Selecting colors
         np_image = torch.squeeze(target_im.cpu().numpy())
         Z = np_image.reshape((-1,3))
         criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
         num_colors = 8
-        _, _, center=cv.kmeans(Z, num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
+        _, _, self.centers = cv.kmeans(Z, num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
         print("color centers:")
-        print(centers)
-        '''
+        print(self.centers)
+     
         
     
     def get_PA_image(self):
