@@ -92,6 +92,7 @@ class Painter(torch.nn.Module):
         print("init_test:")
         print(init_test.size())
         self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=0.0, max=1.0), requires_grad=True)
+        self.pixelArtImg = init_test
     
     def quantize_image(self, clamped):
         clamped = torch.clamp(self.pixelArtImg, -10, 10)
