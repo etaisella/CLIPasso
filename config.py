@@ -91,7 +91,7 @@ def parse_arguments():
     # =================================
     parser.add_argument("--percep_loss", type=str, default="l2",
                         help="the type of perceptual loss to be used (L2/LPIPS/none)")
-    parser.add_argument("--perceptual_weight", type=float, default=0,
+    parser.add_argument("--perceptual_weight", type=float, default=1,
                         help="weight the perceptual loss")
     parser.add_argument("--train_with_clip", type=int, default=0)
     parser.add_argument("--clip_weight", type=float, default=0)
@@ -106,7 +106,7 @@ def parse_arguments():
     parser.add_argument("--aug_scale_min", type=float, default=0.7)
     parser.add_argument("--force_sparse", type=float, default=0,
                         help="if True, use L1 regularization on stroke's opacity to encourage small number of strokes")
-    parser.add_argument("--clip_conv_loss", type=float, default=0)
+    parser.add_argument("--clip_conv_loss", type=float, default=1)
     parser.add_argument("--clip_conv_loss_type", type=str, default="L2")
     parser.add_argument("--clip_conv_layer_weights",
                         type=str, default="0,0,1.0,1.0,0")
