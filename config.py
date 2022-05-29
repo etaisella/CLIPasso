@@ -89,7 +89,7 @@ def parse_arguments():
     # =================================
     # ============= loss ==============
     # =================================
-    parser.add_argument("--percep_loss", type=str, default="L2",
+    parser.add_argument("--percep_loss", type=str, default="l2",
                         help="the type of perceptual loss to be used (L2/LPIPS/none)")
     parser.add_argument("--perceptual_weight", type=float, default=0,
                         help="weight the perceptual loss")
