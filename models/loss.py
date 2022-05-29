@@ -25,7 +25,7 @@ class Loss(nn.Module):
             {
                 "clip": CLIPLoss(args),
                 "clip_conv_loss": CLIPConvLoss(args),
-                "l2": L2_(args)
+                "l2": L2_()
             }
 
     def get_losses_to_apply(self):
