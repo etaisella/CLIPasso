@@ -10,6 +10,7 @@ class Loss(nn.Module):
         super(Loss, self).__init__()
         self.args = args
         self.percep_loss = args.percep_loss
+        self.percep_weight = args.perceptual_weight
 
         self.train_with_clip = args.train_with_clip
         self.clip_weight = args.clip_weight
@@ -55,6 +56,7 @@ class Loss(nn.Module):
         loss_coeffs = dict.fromkeys(self.losses_to_apply, 1.0)
         loss_coeffs["clip"] = self.clip_weight
         loss_coeffs["clip_text"] = self.clip_text_guide
+        loss_coeffs["l2"] = self.percep_weight
 
         for loss_name in self.losses_to_apply:
             if loss_name in ["clip_conv_loss"]:
