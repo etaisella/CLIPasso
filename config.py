@@ -38,8 +38,8 @@ def parse_arguments():
     # =========== PixelArt ============
     # =================================
     parser.add_argument("--pixelArt", type=int, default=1)
-    parser.add_argument("--canvasW", type=int, default=16)
-    parser.add_argument("--canvasH", type=int, default=16)
+    parser.add_argument("--canvasW", type=int, default=32)
+    parser.add_argument("--canvasH", type=int, default=32)
     parser.add_argument("--quantizeColors", type=int, default=0)
     parser.add_argument("--numColors", type=int, default=16)
 
@@ -91,7 +91,7 @@ def parse_arguments():
     # =================================
     parser.add_argument("--percep_loss", type=str, default="l2",
                         help="the type of perceptual loss to be used (L2/LPIPS/none)")
-    parser.add_argument("--perceptual_weight", type=float, default=1,
+    parser.add_argument("--perceptual_weight", type=float, default=0.1,
                         help="weight the perceptual loss")
     parser.add_argument("--train_with_clip", type=int, default=0)
     parser.add_argument("--clip_weight", type=float, default=0)
