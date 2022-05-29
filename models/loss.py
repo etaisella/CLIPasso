@@ -24,7 +24,8 @@ class Loss(nn.Module):
         self.loss_mapper = \
             {
                 "clip": CLIPLoss(args),
-                "clip_conv_loss": CLIPConvLoss(args)
+                "clip_conv_loss": CLIPConvLoss(args),
+                "l2": L2_(args)
             }
 
     def get_losses_to_apply(self):
