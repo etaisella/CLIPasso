@@ -60,7 +60,7 @@ if not os.path.isfile(f"{abs_path}/U2Net_/saved_models/u2net.pth"):
            "-O", "U2Net_/saved_models/"])
 
 test_name = os.path.splitext(args.target_file)[0]
-output_dir = f"{abs_path}/output_sketches/{test_name}/"
+output_dir = f"{abs_path}/output_sketches/{test_name}_quantColors_{string(args.numColors)}/"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
