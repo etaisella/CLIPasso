@@ -105,7 +105,11 @@ def run(seed, wandb_name):
                                 args.mask_object),
                             "--display_logs", str(int(args.colab)),
                             "--display", str(int(args.display)),
-                            "--quantizeColors", str(int(args.quantizeColors))])
+                            "--quantizeColors", str(int(args.quantizeColors)),
+                            "--pixelArt", str(int(args.pixelArt)),
+                            "--canvasW", str(int(args.canvasW)),
+                            "--canvasH", str(int(args.canvasH)),
+                            "--numColors", str(int(args.canvasH))])
     if exit_code.returncode:
         sys.exit(1)
 
