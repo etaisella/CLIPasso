@@ -32,6 +32,11 @@ parser.add_argument("--num_sketches", type=int, default=3,
                     help="it is recommended to draw 3 sketches and automatically chose the best one")
 parser.add_argument("--multiprocess", type=int, default=0,
                     help="recommended to use multiprocess if your computer has enough memory")
+
+####### PIXEL ART ARGUMENTS #######
+parser.add_argument("--quantizeColors", type=int, default=0)
+###################################
+
 parser.add_argument('-colab', action='store_true')
 parser.add_argument('-cpu', action='store_true')
 parser.add_argument('-display', action='store_true')
