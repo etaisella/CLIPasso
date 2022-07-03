@@ -42,6 +42,9 @@ def parse_arguments():
     parser.add_argument("--canvasH", type=int, default=32)
     parser.add_argument("--numColors", type=int, default=16)
     parser.add_argument("--quantizeColors", type=int, default=0)
+    parser.add_argument("--clip_fc_loss_weight", type=float, default=0.01) #semantic weight
+    parser.add_argument("--perceptual_weight", type=float, default=0.005,
+                        help="weight the perceptual loss") #l2 weight
 
     # =================================
     # ============ wandb ============
@@ -91,8 +94,6 @@ def parse_arguments():
     # =================================
     parser.add_argument("--percep_loss", type=str, default="l2",
                         help="the type of perceptual loss to be used (L2/LPIPS/none)")
-    parser.add_argument("--perceptual_weight", type=float, default=0.005,
-                        help="weight the perceptual loss")
     parser.add_argument("--train_with_clip", type=int, default=0)
     parser.add_argument("--clip_weight", type=float, default=0)
     parser.add_argument("--start_clip", type=int, default=0)
@@ -111,7 +112,6 @@ def parse_arguments():
     parser.add_argument("--clip_conv_layer_weights",
                         type=str, default="0,0,1.0,1.0,0")
     parser.add_argument("--clip_model_name", type=str, default="RN101")
-    parser.add_argument("--clip_fc_loss_weight", type=float, default=0.01)
     parser.add_argument("--clip_text_guide", type=float, default=0)
     parser.add_argument("--text_target", type=str, default="none")
 
