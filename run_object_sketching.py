@@ -94,8 +94,10 @@ losses_all = manager.dict()
 
 
 def run(seed, wandb_name):
-    print("Num Colors")
-    print(args.numColors)
+    print("clip_fc_loss_weight")
+    print(args.clip_fc_loss_weight)
+    print("perceptual_weight")
+    print(args.perceptual_weight)
     exit_code = sp.run(["python", "painterly_rendering.py", target,
                             "--num_paths", str(args.num_strokes),
                             "--output_dir", output_dir,
