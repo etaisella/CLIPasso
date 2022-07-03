@@ -117,8 +117,8 @@ def run(seed, wandb_name):
                             "--canvasW", str(int(args.canvasW)),
                             "--canvasH", str(int(args.canvasH)),
                             "--numColors", str(int(args.numColors)),
-                            "--clip_fc_loss_weight", str(int(args.clip_fc_loss_weight)),
-                            "--perceptual_weight", str(int(args.perceptual_weight))])
+                            "--clip_fc_loss_weight", str(float(args.clip_fc_loss_weight)),
+                            "--perceptual_weight", str(float(args.perceptual_weight))])
     if exit_code.returncode:
         sys.exit(1)
 
