@@ -156,7 +156,7 @@ def main(args):
                         terminate = False
                         if args.pixelArt:
                             utils.plot_batch(
-                                inputs, PAimage, args.output_dir, counter, use_wandb=args.use_wandb, title="best_iter.jpg")
+                                inputs, PAimage, args.output_dir, counter, use_wandb=args.use_wandb, title="best_iter_h{args.canvasH}_w{args.canvasW}_quantColors{args.quantizeColors}_{args.numColors}_l2w{args.perceptual_weight}_sem_w{args.clip_fc_loss_weight}.jpg")
                         else:
                             utils.plot_batch(
                                 inputs, sketches, args.output_dir, counter, use_wandb=args.use_wandb, title="best_iter.jpg")
