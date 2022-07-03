@@ -69,8 +69,10 @@ def get_target(args):
 
 
 def main(args):
-    print("Num Colors:")
-    print(args.numColors)
+    print("clip_fc_loss_weight")
+    print(args.clip_fc_loss_weight)
+    print("perceptual_weight")
+    print(args.perceptual_weight)
     loss_func = Loss(args)
     inputs, mask = get_target(args)
     utils.log_input(args.use_wandb, 0, inputs, args.output_dir)
