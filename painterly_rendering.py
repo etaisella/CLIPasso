@@ -69,7 +69,8 @@ def get_target(args):
 
 
 def main(args):
-    print("Testing Flow")
+    print("Num Colors:")
+    print(args.numColors)
     loss_func = Loss(args)
     inputs, mask = get_target(args)
     utils.log_input(args.use_wandb, 0, inputs, args.output_dir)
