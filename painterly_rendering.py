@@ -207,6 +207,8 @@ if __name__ == "__main__":
     print(args.clip_fc_loss_weight)
     print("perceptual_weight")
     print(args.perceptual_weight)
+    print("numColors")
+    print(args.numColors)
     final_config = vars(args)
     try:
         configs_to_save = main(args)
