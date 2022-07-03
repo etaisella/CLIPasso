@@ -203,6 +203,10 @@ def main(args):
 
 if __name__ == "__main__":
     args = config.parse_arguments()
+    print("clip_fc_loss_weight")
+    print(args.clip_fc_loss_weight)
+    print("perceptual_weight")
+    print(args.perceptual_weight)
     final_config = vars(args)
     try:
         configs_to_save = main(args)
