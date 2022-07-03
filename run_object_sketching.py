@@ -100,7 +100,8 @@ def run(seed, wandb_name):
                             "--mask_object_attention", str(
                                 args.mask_object),
                             "--display_logs", str(int(args.colab)),
-                            "--display", str(int(args.display))])
+                            "--display", str(int(args.display)),
+                            "--quantizeColors", str(int(args.quantizeColors))])
     if exit_code.returncode:
         sys.exit(1)
 
