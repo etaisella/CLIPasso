@@ -39,6 +39,9 @@ parser.add_argument("--pixelArt", type=int, default=1)
 parser.add_argument("--canvasW", type=int, default=32)
 parser.add_argument("--canvasH", type=int, default=32)
 parser.add_argument("--numColors", type=int, default=16)
+parser.add_argument("--clip_fc_loss_weight", type=float, default=0.01) #semantic weight
+parser.add_argument("--perceptual_weight", type=float, default=0.005, 
+                    help="weight the perceptual loss") #l2 weight
 ###################################
 
 parser.add_argument('-colab', action='store_true')
@@ -60,7 +63,7 @@ if not os.path.isfile(f"{abs_path}/U2Net_/saved_models/u2net.pth"):
            "-O", "U2Net_/saved_models/"])
 
 test_name = os.path.splitext(args.target_file)[0]
-output_dir = f"{abs_path}/output_sketches/{test_name}_h_{args.canvasH}_w_{args.canvasW}_quantColors_{args.quantizeColors}_{args.numColors}/"
+output_dir = f"{abs_path}/output_sketches/{test_name}_h_{args.canvasH}_w_{args.canvasW}_quantColors_{args.quantizeColors}_{args.numColors}_l2_w_{args.perceptual_weight}_sem_w_{args.clip_fc_loss_weight}/"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
@@ -109,7 +112,9 @@ def run(seed, wandb_name):
                             "--pixelArt", str(int(args.pixelArt)),
                             "--canvasW", str(int(args.canvasW)),
                             "--canvasH", str(int(args.canvasH)),
-                            "--numColors", str(int(args.canvasH))])
+                            "--numColors", str(int(args.canvasH)),
+                            "--clip_fc_loss_weight", str(int(args.clip_fc_loss_weight)),
+                            "--perceptual_weight", str(int(args.perceptual_weight))])
     if exit_code.returncode:
         sys.exit(1)
 
