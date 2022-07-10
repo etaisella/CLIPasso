@@ -99,7 +99,6 @@ class Painter(torch.nn.Module):
             N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
             rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
             rand_selected_colors = torch.unsqueeze((torch.squeeze(self.centers[rand_idxs])).permute(2, 0, 1), 0)
-            #rand_selected_colors = (rand_selected_colors * (self.scaleMax - self.scaleMin)) - self.scaleMax 
             
             if self.doColorQuantization:
                 self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
@@ -124,7 +123,8 @@ class Painter(torch.nn.Module):
     
     
     def get_centers(self):
-        return self.descale(self.centers)
+        clamped_centers = torch.clamp(self.centers, self.scaleMin, self.scaleMax)
+        return self.descale(clamped_centers)
     
     
     def get_PA_image(self):
