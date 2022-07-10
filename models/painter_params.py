@@ -91,7 +91,7 @@ class Painter(torch.nn.Module):
             Z = np_image.reshape((-1,3))
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
-            self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)*20.0 - 10.0 # bringing range to -1, 1
+            self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
             if self.learnColors:
                 self.center_params = torch.nn.Parameter(self.center_params, requires_grad=False)
                 
@@ -101,6 +101,7 @@ class Painter(torch.nn.Module):
             #centers = (self.center_params * (self.scaleMax - self.scaleMin)) - self.scaleMax # scale parameters to a better range for learning
             #rand_selected_colors = torch.unsqueeze((torch.squeeze(centers[rand_idxs])).permute(2, 0, 1), 0)
             rand_selected_colors = torch.unsqueeze((torch.squeeze(self.center_params[rand_idxs])).permute(2, 0, 1), 0)
+            rand_selected_colors = (rand_selected_colors * (self.scaleMax - self.scaleMin)) - self.scaleMax
             
             if self.doColorQuantization:
                 self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
@@ -113,8 +114,8 @@ class Painter(torch.nn.Module):
         return descaled
     
     
-    def quantize_image(self, clamped):
-        repeated = clamped.repeat(self.num_colors, 1, 1, 1)
+    def quantize_image(self, descaled):
+        repeated = descaled.repeat(self.num_colors, 1, 1, 1)
         clamped_centers = torch.clamp(self.center_params, min=self.scaleMin, max=self.scaleMax) # is this necessary?
         distances = torch.sum((repeated - clamped_centers) * (repeated - clamped_centers), dim=1, keepdim=False)
         center_idx = self.softmin(distances*100) # multiply by 100 to get a "1hot" vector
@@ -127,18 +128,16 @@ class Painter(torch.nn.Module):
     
     def get_centers(self):
         clamped_centers = torch.clamp(self.center_params, self.scaleMin, self.scaleMax)
-        descaled = self.descale(clamped_centers)
-        return descaled
+        return clamped_centers
     
     
     def get_PA_image(self):
         clamped = torch.clamp(self.pixelArtImg, self.scaleMin, self.scaleMax)
-        #descaled = self.descale(clamped)
+        descaled = self.descale(clamped)
         
         if self.doColorQuantization:
-            clamped = self.quantize_image(clamped)
+            descaled = self.quantize_image(descaled)
             
-        descaled = self.descale(clamped)
         upsampled = self.upsample(descaled)
         return upsampled
     
