@@ -63,7 +63,7 @@ def plot_pallet(pallet, output_dir, title):
     grid = make_grid(pallet, normalize=False, pad_value=2)
     npgrid = grid.detach().cpu().numpy()
     print(npgrid)
-    plt.imshow(np.transpose(npgrid, (1, 2, 0)), interpolation='nearest')
+    plt.imshow(np.transpose(pallet, (1, 2, 0)), interpolation='nearest')
     plt.axis("off")
     plt.tight_layout()
     plt.savefig("{}/{}".format(output_dir, title))
