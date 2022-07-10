@@ -116,7 +116,7 @@ class Painter(torch.nn.Module):
     
     def quantize_image(self, descaled):
         repeated = descaled.repeat(self.num_colors, 1, 1, 1)
-        clamped_centers = torch.clamp(self.center_params, min=self.scaleMin, max=self.scaleMax) # is this necessary?
+        clamped_centers = torch.clamp(self.center_params, min=0.0, max=1.0)
         distances = torch.sum((repeated - clamped_centers) * (repeated - clamped_centers), dim=1, keepdim=False)
         center_idx = self.softmin(distances*100) # multiply by 100 to get a "1hot" vector
         center_idx = torch.unsqueeze(center_idx, 1)
@@ -458,7 +458,9 @@ class Painter(torch.nn.Module):
 class PainterOptimizer:
     def __init__(self, args, renderer):
         self.renderer = renderer
-        self.points_lr = args.lr
+        self.points_lr = args.lr # pixels in our case
+        self.color_center_lr = args.lr / 10 # currently hard coded, change to arg later
+        self.center_step_interval = 100
         self.color_lr = args.color_lr
         self.args = args
         self.optim_color = args.force_sparse
@@ -467,9 +469,11 @@ class PainterOptimizer:
         if self.args.learnColors:
             for name, param in self.renderer.named_parameters():
                 if name == "pixelArtImg":
-                    param_to_optimize = [param]
-            self.points_optim = torch.optim.Adam(param_to_optimize, lr=self.points_lr)
-            #self.points_optim = torch.optim.Adam(self.renderer.parameters(), lr=self.points_lr)
+                    param_to_optimize_pixels = [param]
+                elif name == "center_param":
+                    param_to_optimize_centers = [param[
+            self.points_optim = torch.optim.Adam(param_to_optimize_pixels, lr=self.points_lr)
+            self.centers_optim = torch.optim.Adam(param_to_optimize_centers, lr=self.color_center_lr)
         else:
             self.points_optim = torch.optim.Adam(self.renderer.parameters(), lr=self.points_lr)
         if self.optim_color:
@@ -484,11 +488,16 @@ class PainterOptimizer:
         self.points_optim.zero_grad()
         if self.optim_color:
             self.color_optim.zero_grad()
+        if self.args.learnColors:
+            self.centers_optim.zero_grad()
     
-    def step_(self):
+    def step_(self, counter):
         self.points_optim.step()
         if self.optim_color:
             self.color_optim.step()
+        if self.args.learnColors:
+            if ((counter + 1) % self.center_step_interval) == 0:
+                self.centers_optim.step()
     
     def get_lr(self):
         return self.points_optim.param_groups[0]['lr']
