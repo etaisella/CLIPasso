@@ -468,7 +468,7 @@ class PainterOptimizer:
         if self.args.learnColors:
             for name, param in self.renderer.named_parameters():
                 if name == "pixelArtImg":
-                    param_to_optimize = param
+                    param_to_optimize = [param]
             self.points_optim = torch.optim.Adam(param_to_optimize, lr=self.points_lr)
             #self.points_optim = torch.optim.Adam(self.renderer.parameters(), lr=self.points_lr)
         else:
