@@ -127,7 +127,7 @@ class Painter(torch.nn.Module):
     
     
     def get_centers(self):
-        clamped_centers = torch.clamp(self.center_params, self.scaleMin, self.scaleMax)
+        clamped_centers = torch.clamp(self.center_params, 0.0, 1.0)
         return clamped_centers
     
     
