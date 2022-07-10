@@ -91,15 +91,16 @@ class Painter(torch.nn.Module):
             Z = np_image.reshape((-1,3))
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
-            self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
+            self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)*2.0 - 1.0 # bringing range to -1, 1
             if self.learnColors:
                 self.center_params = torch.nn.Parameter(self.center_params, requires_grad=True)
                 
             # initiating canvas
             N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
             rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
-            centers = (self.center_params * (self.scaleMax - self.scaleMin)) - self.scaleMax # scale parameters to a better range for learning
-            rand_selected_colors = torch.unsqueeze((torch.squeeze(centers[rand_idxs])).permute(2, 0, 1), 0)
+            #centers = (self.center_params * (self.scaleMax - self.scaleMin)) - self.scaleMax # scale parameters to a better range for learning
+            #rand_selected_colors = torch.unsqueeze((torch.squeeze(centers[rand_idxs])).permute(2, 0, 1), 0)
+            rand_selected_colors = torch.unsqueeze((torch.squeeze(self.center_params[rand_idxs])).permute(2, 0, 1), 0)
             
             if self.doColorQuantization:
                 self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
@@ -131,11 +132,12 @@ class Painter(torch.nn.Module):
     
     def get_PA_image(self):
         clamped = torch.clamp(self.pixelArtImg, self.scaleMin, self.scaleMax)
-        descaled = self.descale(clamped)
+        #descaled = self.descale(clamped)
         
         if self.doColorQuantization:
-            descaled = self.quantize_image(descaled)
-        
+            clamped = self.quantize_image(clamped)
+            
+        descaled = self.descale(clamped)
         upsampled = self.upsample(descaled)
         return upsampled
     
