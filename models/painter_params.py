@@ -94,12 +94,12 @@ class Painter(torch.nn.Module):
             self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
             if self.learnColors:
                 self.center_params = torch.nn.Parameter(self.center_params, requires_grad=True)
-            self.centers = (self.center_params * (self.scaleMax - self.scaleMin)) - self.scaleMax # scale parameters to a better range for learning
-            
+                
             # initiating canvas
             N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
             rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
-            rand_selected_colors = torch.unsqueeze((torch.squeeze(self.centers[rand_idxs])).permute(2, 0, 1), 0)
+            centers = (self.center_params * (self.scaleMax - self.scaleMin)) - self.scaleMax # scale parameters to a better range for learning
+            rand_selected_colors = torch.unsqueeze((torch.squeeze(centers[rand_idxs])).permute(2, 0, 1), 0)
             
             if self.doColorQuantization:
                 self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
@@ -114,17 +114,17 @@ class Painter(torch.nn.Module):
     
     def quantize_image(self, clamped):
         repeated = clamped.repeat(self.num_colors, 1, 1, 1)
-        descaled_centers = self.descale(self.centers)
-        distances = torch.sum((repeated - descaled_centers) * (repeated - descaled_centers), dim=1, keepdim=False)
+        clamped_centers = torch.clamp(self.center_params, min=self.scaleMin, max=self.scaleMax) # is this necessary?
+        distances = torch.sum((repeated - clamped_centers) * (repeated - clamped_centers), dim=1, keepdim=False)
         center_idx = self.softmin(distances*100) # multiply by 100 to get a "1hot" vector
         center_idx = torch.unsqueeze(center_idx, 1)
         center_idx_rgb = center_idx.repeat(1, 3, 1, 1)     
-        quantized_img = torch.sum(center_idx_rgb * descaled_centers, dim=0, keepdim=True)
+        quantized_img = torch.sum(center_idx_rgb * clamped_centers, dim=0, keepdim=True)
         return quantized_img
     
     
     def get_centers(self):
-        clamped_centers = torch.clamp(self.centers, self.scaleMin, self.scaleMax)
+        clamped_centers = torch.clamp(self.center_params, self.scaleMin, self.scaleMax)
         descaled = self.descale(clamped_centers)
         return descaled
     
