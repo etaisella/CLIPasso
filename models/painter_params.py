@@ -124,7 +124,9 @@ class Painter(torch.nn.Module):
     
     def get_centers(self):
         clamped_centers = torch.clamp(self.centers, self.scaleMin, self.scaleMax)
-        return self.descale(clamped_centers)
+        descaled = self.descale(clamped_centers)
+        descaled = torch.clamp(descaled, 0.0, 1.0)
+        return descaled
     
     
     def get_PA_image(self):
