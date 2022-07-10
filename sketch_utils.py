@@ -44,19 +44,21 @@ def imwrite(img, filename, gamma=2.2, normalize=False, use_wandb=False, wandb_na
 
 def plot_batch(inputs, outputs, output_dir, step, use_wandb, title):
     plt.figure()
+    
+    '''
     plt.subplot(2, 1, 1)
     grid = make_grid(inputs.clone().detach(), normalize=True, pad_value=2)
     npgrid = grid.cpu().numpy()
     plt.imshow(np.transpose(npgrid, (1, 2, 0)), interpolation='nearest')
     plt.axis("off")
     plt.title("inputs")
+    '''
 
-    plt.subplot(2, 1, 2)
+    plt.subplot(1, 1, 1)
     grid = make_grid(outputs, normalize=False, pad_value=2)
     npgrid = grid.detach().cpu().numpy()
-    plt.imshow(np.transpose(npgrid, (1, 2, 0)), interpolation='nearest')
+    plt.imshow(np.transpose(npgrid, (1, 1, 0)), interpolation='nearest')
     plt.axis("off")
-    plt.title("outputs")
 
     plt.tight_layout()
     if use_wandb:
