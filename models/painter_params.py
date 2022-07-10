@@ -37,6 +37,7 @@ class Painter(torch.nn.Module):
         self.add_random_noise = "noise" in args.augemntations
         self.noise_thresh = args.noise_thresh
         self.softmax_temp = args.softmax_temp
+        self.learnColors = args.learnColors
         self.pixelArt = pixelArt
 
         self.shapes = []
