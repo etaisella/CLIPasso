@@ -57,6 +57,8 @@ def plot_batch(inputs, outputs, output_dir, step, use_wandb, title):
     
     
 def plot_pallet(pallet, output_dir, title):
+    print("Pallet:")
+    print(pallet)
     plt.figure()
     plt.subplot(1, 1, 1)
     grid = make_grid(pallet, normalize=False, pad_value=2)
