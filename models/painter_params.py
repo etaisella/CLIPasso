@@ -91,13 +91,12 @@ class Painter(torch.nn.Module):
             Z = np_image.reshape((-1,3))
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
-            self.centers = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
-            self.centers = (self.centers * (self.scaleMax - self.scaleMin)) - self.scaleMax # scale parameters to a better range for learning
+            self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
             if self.learnColors:
-                self.centers = torch.nn.Parameter(self.centers, requires_grad=True)
+                self.centers = torch.nn.Parameter(self.center_params, requires_grad=True)
+            self.centers = (self.center_params * (self.scaleMax - self.scaleMin)) - self.scaleMax # scale parameters to a better range for learning
             
             # initiating canvas
-            print("Setting PA canvas in class init")
             N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
             rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
             rand_selected_colors = torch.unsqueeze((torch.squeeze(self.centers[rand_idxs])).permute(2, 0, 1), 0)
