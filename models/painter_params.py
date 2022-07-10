@@ -101,8 +101,8 @@ class Painter(torch.nn.Module):
             
     
     def quantize_image(self, clamped):
-        clamped = torch.clamp(self.pixelArtImg, -10, 10)
-        clamped = (clamped + 10) / 20
+        #clamped = torch.clamp(self.pixelArtImg, -10, 10)
+        #clamped = (clamped + 10) / 20
         #upsampled = self.upsample(clamped)
         
         repeated = clamped.repeat(self.num_colors, 1, 1, 1)
