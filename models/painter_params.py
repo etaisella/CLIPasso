@@ -91,7 +91,7 @@ class Painter(torch.nn.Module):
             Z = np_image.reshape((-1,3))
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
-            self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)*2.0 - 1.0 # bringing range to -1, 1
+            self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)*20.0 - 10.0 # bringing range to -1, 1
             if self.learnColors:
                 self.center_params = torch.nn.Parameter(self.center_params, requires_grad=True)
                 
