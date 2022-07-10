@@ -86,13 +86,14 @@ class Painter(torch.nn.Module):
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
             self.centers = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
+            self.centers = (self.centers * 20) - 10 # scale parameters to a better range for learning
             
             # initiating canvas
             print("Setting PA canvas in class init")
             N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
             rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
             rand_selected_colors = torch.unsqueeze((torch.squeeze(self.centers[rand_idxs])).permute(2, 0, 1), 0)
-            rand_selected_colors = (rand_selected_colors * 20) - 10 # scale parameters to a better range for learning
+            #rand_selected_colors = (rand_selected_colors * 20) - 10 
             
             if self.doColorQuantization:
                 self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
@@ -109,20 +110,21 @@ class Painter(torch.nn.Module):
         quantized_img = torch.sum(center_idx_rgb * self.centers, dim=0, keepdim=True)
         return quantized_img
     
+    
     def get_centers(self):
         return self.centers
     
+    
     def get_PA_image(self):
         clamped = torch.clamp(self.pixelArtImg, -10, 10)
-        clamped = (clamped + 10) / 20 # descale parameters to "original" space
         
         if self.doColorQuantization:
-            quantized_img = self.quantize_image(clamped)
-            upsampled = self.upsample(quantized_img)
-        else:
-            upsampled = self.upsample(clamped)
+            clamped = self.quantize_image(clamped)
         
+        rescaled = (clamped + 10) / 20
+        upsampled = self.upsample(rescaled)
         return upsampled
+    
     
     def init_image(self, stage=0):
         if stage > 0:
