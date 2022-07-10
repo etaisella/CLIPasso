@@ -35,6 +35,7 @@ parser.add_argument("--multiprocess", type=int, default=0,
 
 ####### PIXEL ART ARGUMENTS #######
 parser.add_argument("--quantizeColors", type=int, default=0)
+parser.add_argument("--learnColors", type=int, default=0)
 parser.add_argument("--pixelArt", type=int, default=1)
 parser.add_argument("--canvasW", type=int, default=32)
 parser.add_argument("--canvasH", type=int, default=32)
@@ -104,12 +105,12 @@ def run(seed, wandb_name):
                             "--use_gpu", str(int(use_gpu)),
                             "--fix_scale", str(args.fix_scale),
                             "--mask_object", str(args.mask_object),
-                            "--mask_object_attention", str(
-                                args.mask_object),
+                            "--mask_object_attention", str(args.mask_object),
                             "--display_logs", str(int(args.colab)),
                             "--display", str(int(args.display)),
                             "--quantizeColors", str(int(args.quantizeColors)),
                             "--pixelArt", str(int(args.pixelArt)),
+                            "--learnColors", str(int(args.learnColors)),
                             "--canvasW", str(int(args.canvasW)),
                             "--canvasH", str(int(args.canvasH)),
                             "--numColors", str(int(args.numColors)),
