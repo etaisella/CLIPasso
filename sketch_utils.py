@@ -57,12 +57,12 @@ def plot_batch(inputs, outputs, output_dir, step, use_wandb, title):
     
     
 def plot_pallet(pallet, output_dir, title):
-    print("Pallet:")
-    print(pallet)
+    print("npgrid:")
     plt.figure()
     plt.subplot(1, 1, 1)
     grid = make_grid(pallet, normalize=False, pad_value=2)
     npgrid = grid.detach().cpu().numpy()
+    print(npgrid)
     plt.imshow(np.transpose(npgrid, (1, 2, 0)), interpolation='nearest')
     plt.axis("off")
     plt.tight_layout()
