@@ -109,11 +109,6 @@ class Painter(torch.nn.Module):
         quantized_img = torch.sum(center_idx_rgb * self.centers, dim=0, keepdim=True)
         return quantized_img
     
-    
-    def get_centers(self):
-        
-    
-    
     def get_PA_image(self):
         clamped = torch.clamp(self.pixelArtImg, -10, 10)
         clamped = (clamped + 10) / 20
