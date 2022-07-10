@@ -57,13 +57,10 @@ def plot_batch(inputs, outputs, output_dir, step, use_wandb, title):
     
     
 def plot_pallet(pallet, output_dir, title):
-    print("npgrid:")
+    pallet_sq = torch.permute(torch.squeeze(pallet, 0), (1, 2,0))
     plt.figure()
     plt.subplot(1, 1, 1)
-    #grid = make_grid(pallet, normalize=False, pad_value=2)
-    #npgrid = grid.detach().cpu().numpy()
-    #print(npgrid)
-    nppallet = pallet.detach().cpu().numpy()
+    nppallet = pallet_sq.detach().cpu().numpy()
     print(nppallet.shape)
     plt.imshow(np.transpose(nppallet, (1, 2, 0)), interpolation='nearest')
     plt.axis("off")
