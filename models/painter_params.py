@@ -93,7 +93,7 @@ class Painter(torch.nn.Module):
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
             self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
             if self.learnColors:
-                self.center_params = torch.nn.Parameter(self.center_params, requires_grad=False)
+                self.center_params = torch.nn.Parameter(self.center_params, requires_grad=True)
                 
             # initiating canvas
             N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
