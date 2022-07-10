@@ -121,7 +121,7 @@ class Painter(torch.nn.Module):
         center_idx = torch.unsqueeze(center_idx, 1)
         center_idx_rgb = center_idx.repeat(1, 3, 1, 1)     
         quantized_img = torch.sum(center_idx_rgb * clamped_centers, dim=0, keepdim=True)
-        quantized_img = torch.clamp(quantized_img, min=self.scaleMin, max=self.scaleMax)
+        #quantized_img = torch.clamp(quantized_img, min=self.scaleMin, max=self.scaleMax)
         return quantized_img
     
     
