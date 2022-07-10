@@ -465,9 +465,10 @@ class PainterOptimizer:
         self.optim_color = args.force_sparse
 
     def init_optimizers(self):
-        self.points_optim = torch.optim.Adam(self.renderer.parameters(), lr=self.points_lr)
-        for param in self.renderer.parameters():
-            print(param)
+        if self.args.learnColors:
+            self.points_optim = torch.optim.Adam(self.renderer.parameters()[1], lr=self.points_lr)
+        else:
+            self.points_optim = torch.optim.Adam(self.renderer.parameters(), lr=self.points_lr)
         if self.optim_color:
             self.color_optim = torch.optim.Adam(self.renderer.set_color_parameters(), lr=self.color_lr)
 
