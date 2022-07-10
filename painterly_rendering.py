@@ -91,7 +91,11 @@ def main(args):
         epoch_range = range(args.num_iter)
     else:
         epoch_range = tqdm(range(args.num_iter))
-
+    
+    #############################
+    #####    MAIN   LOOP    #####
+    #############################
+    
     for epoch in epoch_range:
         if not args.display:
             epoch_range.refresh()
@@ -111,6 +115,11 @@ def main(args):
             sketches = renderer.get_image().to(args.device)
             losses_dict = loss_func(sketches, inputs.detach(
             ), renderer.get_color_parameters(), renderer, counter, optimizer)
+            
+        if epoch == 0: # print original pallet at first iteration
+            pallet = renderer.get_centers().to(args.device)
+            utils.plot_pallet(pallet, args.output_dir, 
+                              title=f"best_iter_h{args.canvasH}_w{args.canvasW}_quantColors{args.quantizeColors}_{args.numColors}_l2w{args.perceptual_weight}_sem_w{args.clip_fc_loss_weight}_original_pallet.jpg")
             
         loss = sum(list(losses_dict.values()))
         loss.backward()
