@@ -57,7 +57,7 @@ def plot_batch(inputs, outputs, output_dir, step, use_wandb, title):
     plt.subplot(1, 1, 1)
     grid = make_grid(outputs, normalize=False, pad_value=2)
     npgrid = grid.detach().cpu().numpy()
-    plt.imshow(np.transpose(npgrid, (1, 1, 0)), interpolation='nearest')
+    plt.imshow(np.transpose(npgrid, (1, 2, 0)), interpolation='nearest')
     plt.axis("off")
 
     plt.tight_layout()
