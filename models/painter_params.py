@@ -115,7 +115,7 @@ class Painter(torch.nn.Module):
     
     def quantize_image(self, clamped):
         repeated = clamped.repeat(self.num_colors, 1, 1, 1)
-        clamped_centers = torch.clamp(self.center_params, min=self.scaleMin, max=self.scaleMax) # is this necessary?
+        self.center_params = torch.clamp(self.center_params, min=self.scaleMin, max=self.scaleMax) # is this necessary?
         distances = torch.sum((repeated - clamped_centers) * (repeated - clamped_centers), dim=1, keepdim=False)
         center_idx = self.softmin(distances*100) # multiply by 100 to get a "1hot" vector
         center_idx = torch.unsqueeze(center_idx, 1)
