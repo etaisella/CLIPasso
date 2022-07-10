@@ -114,7 +114,7 @@ class Painter(torch.nn.Module):
     
     def quantize_image(self, clamped):
         repeated = clamped.repeat(self.num_colors, 1, 1, 1)
-        descaled_centers = descaled(self.centers)
+        descaled_centers = self.descale(self.centers)
         distances = torch.sum((repeated - descaled_centers) * (repeated - descaled_centers), dim=1, keepdim=False)
         center_idx = self.softmin(distances*100) # multiply by 100 to get a "1hot" vector
         center_idx = torch.unsqueeze(center_idx, 1)
@@ -124,12 +124,12 @@ class Painter(torch.nn.Module):
     
     
     def get_centers(self):
-        return descaled(self.centers)
+        return self.descale(self.centers)
     
     
     def get_PA_image(self):
         clamped = torch.clamp(self.pixelArtImg, self.scaleMin, self.scaleMax)
-        descaled = descaled(clamped)
+        descaled = self.descale(clamped)
         
         if self.doColorQuantization:
             descaled = self.quantize_image(descaled)
