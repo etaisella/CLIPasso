@@ -93,6 +93,8 @@ class Painter(torch.nn.Module):
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
             self.centers = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
             self.centers = (self.centers * (self.scaleMax - self.scaleMin)) - self.scaleMax # scale parameters to a better range for learning
+            if self.learnColors:
+                self.centers = torch.nn.Parameter(self.centers, requires_grad=True)
             
             # initiating canvas
             print("Setting PA canvas in class init")
@@ -125,7 +127,6 @@ class Painter(torch.nn.Module):
     def get_centers(self):
         clamped_centers = torch.clamp(self.centers, self.scaleMin, self.scaleMax)
         descaled = self.descale(clamped_centers)
-        descaled = torch.clamp(descaled, 0.0, 1.0)
         return descaled
     
     
