@@ -57,7 +57,7 @@ def plot_batch(inputs, outputs, output_dir, step, use_wandb, title):
     
     
 def plot_pallet(pallet, output_dir, title):
-    pallet_sq = torch.permute(torch.squeeze(pallet, 0), (1, 2,0))
+    pallet_sq = torch.squeeze(pallet, 0).permute((1, 2,0))
     plt.figure()
     plt.subplot(1, 1, 1)
     nppallet = pallet_sq.detach().cpu().numpy()
