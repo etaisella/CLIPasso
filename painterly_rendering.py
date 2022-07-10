@@ -123,7 +123,7 @@ def main(args):
             
         loss = sum(list(losses_dict.values()))
         loss.backward()
-        optimizer.step_()
+        optimizer.step_(epoch)
         if epoch % args.save_interval == 0:
             if args.pixelArt:
                 utils.plot_batch(inputs, PAimage, f"{args.output_dir}/jpg_logs", counter,
