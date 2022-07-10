@@ -85,14 +85,14 @@ class Painter(torch.nn.Module):
             Z = np_image.reshape((-1,3))
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
-            self.centers = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
+            self.centers = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).permute(2, 0, 1).to(self.device)
             
             # initiating canvas
             print("Setting PA canvas in class init")
             N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
             rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
-            rand_selected_colors = torch.unsqueeze((torch.squeeze(self.centers[rand_idxs])).permute(2, 0, 1), 0)
-            rand_selected_colors = (rand_selected_colors * 20) - 10
+            rand_selected_colors = torch.unsqueeze((torch.squeeze(self.centers[rand_idxs])), 0)
+            rand_selected_colors = (rand_selected_colors * 20) - 10 # scale parameters to a better range for learning
             
             if self.doColorQuantization:
                 self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
@@ -101,17 +101,18 @@ class Painter(torch.nn.Module):
             
     
     def quantize_image(self, clamped):
-        #clamped = torch.clamp(self.pixelArtImg, -10, 10)
-        #clamped = (clamped + 10) / 20
-        #upsampled = self.upsample(clamped)
-        
         repeated = clamped.repeat(self.num_colors, 1, 1, 1)
         distances = torch.sum((repeated - self.centers) * (repeated - self.centers), dim=1, keepdim=False)
-        center_idx = self.softmin(distances*100)
+        center_idx = self.softmin(distances*100) # multiply by 100 to get a "1hot" vector
         center_idx = torch.unsqueeze(center_idx, 1)
         center_idx_rgb = center_idx.repeat(1, 3, 1, 1)     
         quantized_img = torch.sum(center_idx_rgb * self.centers, dim=0, keepdim=True)
         return quantized_img
+    
+    
+    def get_centers(self):
+        
+    
     
     def get_PA_image(self):
         clamped = torch.clamp(self.pixelArtImg, -10, 10)
