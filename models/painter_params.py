@@ -471,7 +471,7 @@ class PainterOptimizer:
                 if name == "pixelArtImg":
                     param_to_optimize_pixels = [param]
                 elif name == "center_param":
-                    param_to_optimize_centers = [param[
+                    param_to_optimize_centers = [param]
             self.points_optim = torch.optim.Adam(param_to_optimize_pixels, lr=self.points_lr)
             self.centers_optim = torch.optim.Adam(param_to_optimize_centers, lr=self.color_center_lr)
         else:
