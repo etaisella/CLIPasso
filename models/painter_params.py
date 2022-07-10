@@ -466,7 +466,7 @@ class PainterOptimizer:
 
     def init_optimizers(self):
         if self.args.learnColors:
-            for name, param in model.named_parameters():
+            for name, param in self.renderer.named_parameters():
                 print(name)
                    
             self.points_optim = torch.optim.Adam(self.renderer.parameters(), lr=self.points_lr)
