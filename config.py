@@ -50,10 +50,10 @@ def parse_arguments():
     # =================================
     # ============ wandb ============
     # =================================
-    parser.add_argument("--use_wandb", type=int, default=0)
-    parser.add_argument("--wandb_user", type=str, default="yael-vinker")
+    parser.add_argument("--use_wandb", type=int, default=1)
+    parser.add_argument("--wandb_user", type=str, default="etaisella")
     parser.add_argument("--wandb_name", type=str, default="test")
-    parser.add_argument("--wandb_project_name", type=str, default="none")
+    parser.add_argument("--wandb_project_name", type=str, default="pixelArt")
 
     # =================================
     # =========== training ============
