@@ -188,12 +188,6 @@ def main(args):
                         break
                     terminate = True
 
-        if counter == 0 and args.attention_init:
-            utils.plot_atten(renderer.get_attn(), renderer.get_thresh(), inputs, renderer.get_inds(),
-                             args.use_wandb, "{}/{}.jpg".format(
-                                 args.output_dir, "attention_map"),
-                             args.saliency_model, args.display_logs)
-
         if args.use_wandb:
             wandb_dict = {"loss": loss.item(), "lr": optimizer.get_lr()}
             for k in losses_dict.keys():
