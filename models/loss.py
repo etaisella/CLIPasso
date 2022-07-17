@@ -75,11 +75,6 @@ class Loss(nn.Module):
         for key in self.losses_to_apply:
             # loss = loss + losses_dict[key] * loss_coeffs[key]
             losses_dict[key] = losses_dict[key] * loss_coeffs[key]
-            print("loss key:")
-            print(key)
-            print("losses_dict[key]")
-            print(losses_dict[key])
-        # print(losses_dict)
         return losses_dict
 
 
