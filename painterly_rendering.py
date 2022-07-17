@@ -118,7 +118,7 @@ def main(args):
             
         if epoch == 0: # print original pallet at first iteration
             pallet = renderer.get_centers().to(args.device)
-            utils.plot_pallet(pallet, args.output_dir, counter, use_wandb=args.use_wandb, 
+            utils.plot_pallet(pallet, args.output_dir, epoch, use_wandb=args.use_wandb, 
                               title=f"best_iter_h{args.canvasH}_w{args.canvasW}_quantColors{args.quantizeColors}_{args.numColors}_l2w{args.perceptual_weight}_sem_w{args.clip_fc_loss_weight}_colorLearning{args.learnColors}_original_pallet.jpg")
             
         loss = sum(list(losses_dict.values()))
@@ -126,10 +126,10 @@ def main(args):
         optimizer.step_(epoch)
         if epoch % args.save_interval == 0:
             if args.pixelArt:
-                utils.plot_batch(inputs, PAimage, f"{args.output_dir}/jpg_logs", counter,
+                utils.plot_batch(inputs, PAimage, f"{args.output_dir}/jpg_logs", epoch,
                                 use_wandb=args.use_wandb, title=f"PA_iter{epoch}.jpg")
             else:
-                utils.plot_batch(inputs, sketches, f"{args.output_dir}/jpg_logs", counter,
+                utils.plot_batch(inputs, sketches, f"{args.output_dir}/jpg_logs", epoch,
                                 use_wandb=args.use_wandb, title=f"iter{epoch}.jpg")
             renderer.save_svg(
                 f"{args.output_dir}/svg_logs", f"svg_iter{epoch}")
@@ -165,12 +165,12 @@ def main(args):
                         if args.pixelArt:
                             pallet = renderer.get_centers().to(args.device)
                             utils.plot_batch(
-                                inputs, PAimage, args.output_dir, counter, use_wandb=args.use_wandb, title=f"best_iter_h{args.canvasH}_w{args.canvasW}_quantColors{args.quantizeColors}_{args.numColors}_l2w{args.perceptual_weight}_sem_w{args.clip_fc_loss_weight}_colorLearning{args.learnColors}.jpg")
+                                inputs, PAimage, args.output_dir, epoch, use_wandb=args.use_wandb, title=f"best_iter_h{args.canvasH}_w{args.canvasW}_quantColors{args.quantizeColors}_{args.numColors}_l2w{args.perceptual_weight}_sem_w{args.clip_fc_loss_weight}_colorLearning{args.learnColors}.jpg")
                             utils.plot_pallet(
                                 pallet, args.output_dir, counter, use_wandb=args.use_wandb, title=f"best_iter_h{args.canvasH}_w{args.canvasW}_quantColors{args.quantizeColors}_{args.numColors}_l2w{args.perceptual_weight}_sem_w{args.clip_fc_loss_weight}_colorLearning{args.learnColors}_pallet.jpg")
                         else:
                             utils.plot_batch(
-                                inputs, sketches, args.output_dir, counter, use_wandb=args.use_wandb, title="best_iter.jpg")
+                                inputs, sketches, args.output_dir, epoch, use_wandb=args.use_wandb, title="best_iter.jpg")
                             
                         renderer.save_svg(args.output_dir, "best_iter")
 
