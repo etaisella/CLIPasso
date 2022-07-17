@@ -124,7 +124,7 @@ def run(seed, wandb_name):
                             "--clip_fc_loss_weight", str(float(args.clip_fc_loss_weight)),
                             "--perceptual_weight", str(float(args.perceptual_weight)),
                             "--centroidLr", str(float(args.centroidLr)),
-                            "--centroidStep", str(float(args.centroidStep))])
+                            "--centroidStep", str(int(args.centroidStep))])
     if exit_code.returncode:
         sys.exit(1)
 
