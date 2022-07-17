@@ -111,7 +111,6 @@ def main(args):
             PAimage = renderer.get_PA_image().to(args.device)
             losses_dict = loss_func(PAimage, inputs.detach(
             ), renderer.get_color_parameters(), renderer, counter, optimizer)
-            print(losses_dict)
         else:
             sketches = renderer.get_image().to(args.device)
             losses_dict = loss_func(sketches, inputs.detach(
