@@ -28,7 +28,7 @@ parser.add_argument("--fix_scale", type=int, default=0,
                     help="if the target image is not squared, it is recommended to fix the scale")
 parser.add_argument("--mask_object", type=int, default=0,
                     help="if the target image contains background, it's better to mask it out")
-parser.add_argument("--num_sketches", type=int, default=3,
+parser.add_argument("--num_sketches", type=int, default=1,
                     help="it is recommended to draw 3 sketches and automatically chose the best one")
 parser.add_argument("--multiprocess", type=int, default=0,
                     help="recommended to use multiprocess if your computer has enough memory")
