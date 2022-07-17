@@ -64,6 +64,11 @@ if not os.path.isfile(f"{abs_path}/U2Net_/saved_models/u2net.pth"):
            "-O", "U2Net_/saved_models/"])
 
 test_name = os.path.splitext(args.target_file)[0]
+canvH = args.canvasH
+canvW = args.canvasW
+quantColors = args.quantizeColors*args.args.numColors
+learnColors = args.learnColors
+
 output_dir = f"{abs_path}/output_sketches/{test_name}/"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
@@ -160,7 +165,7 @@ if multiprocess:
     P = mp.Pool(ncpus)  # Generate pool of workers
 
 for seed in seeds:
-    wandb_name = f"{test_name}_H{args.canvasH}_W{args.canvasW}_quantColors{args.quantizeColors*args.args.numColors}_learnCenters{args.learnColors}"
+    wandb_name = f"{test_name}_H{canvH}_W{canvW}_quantColors{quantColors}_learnCenters{learnColors}"
     if multiprocess:
         P.apply_async(run, (seed, wandb_name))
     else:
