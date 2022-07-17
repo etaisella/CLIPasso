@@ -459,7 +459,7 @@ class PainterOptimizer:
     def __init__(self, args, renderer):
         self.renderer = renderer
         self.points_lr = args.lr # pixels in our case
-        self.color_center_lr = args.lr / 10000 # currently hard coded, change to arg later
+        self.color_center_lr = args.lr / 5000 # currently hard coded, change to arg later
         self.center_step_interval = 100
         self.color_lr = args.color_lr
         self.args = args
