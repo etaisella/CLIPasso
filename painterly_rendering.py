@@ -128,6 +128,7 @@ def main(args):
             if args.pixelArt:
                 utils.plot_batch(inputs, PAimage, f"{args.output_dir}/jpg_logs", epoch,
                                 use_wandb=args.use_wandb, title=f"PA_iter{epoch}.jpg")
+                utils.plot_pallet(pallet, args.output_dir, counter, use_wandb=args.use_wandb, title=f"PA_iter{epoch}_pallet.jpg")
             else:
                 utils.plot_batch(inputs, sketches, f"{args.output_dir}/jpg_logs", epoch,
                                 use_wandb=args.use_wandb, title=f"iter{epoch}.jpg")
