@@ -66,7 +66,7 @@ if not os.path.isfile(f"{abs_path}/U2Net_/saved_models/u2net.pth"):
 test_name = os.path.splitext(args.target_file)[0]
 canvH = args.canvasH
 canvW = args.canvasW
-quantColors = args.quantizeColors*args.args.numColors
+quantColors = args.quantizeColors*args.numColors
 learnColors = args.learnColors
 
 output_dir = f"{abs_path}/output_sketches/{test_name}/"
