@@ -160,7 +160,7 @@ if multiprocess:
     P = mp.Pool(ncpus)  # Generate pool of workers
 
 for seed in seeds:
-    wandb_name = f"{test_name}"
+    wandb_name = f"{test_name}_H{args.canvasH}_W{args.canvasW}_quantColors{args.quantizeColors*args.args.numColors}_learnCenters{args.learnColors}"
     if multiprocess:
         P.apply_async(run, (seed, wandb_name))
     else:
