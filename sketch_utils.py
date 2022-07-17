@@ -56,7 +56,7 @@ def plot_batch(inputs, outputs, output_dir, step, use_wandb, title):
     plt.close()
     
     
-def plot_pallet(pallet, output_dir, title):
+def plot_pallet(pallet, output_dir, step, use_wandb, title):
     pallet_sq = torch.squeeze(pallet, 2).permute((1, 2, 0))
     plt.figure()
     plt.subplot(1, 1, 1)
@@ -64,6 +64,8 @@ def plot_pallet(pallet, output_dir, title):
     plt.imshow(np.transpose(nppallet, (1, 2, 0)), interpolation='nearest')
     plt.axis("off")
     plt.tight_layout()
+    if use_wandb:
+        wandb.log({"output": wandb.Image(plt)}, step=step)
     plt.savefig("{}/{}".format(output_dir, title))
     plt.close()
 
