@@ -65,7 +65,7 @@ def plot_pallet(pallet, output_dir, step, use_wandb, title):
     plt.axis("off")
     plt.tight_layout()
     if use_wandb:
-        wandb.log({"output": wandb.Image(plt)}, step=step)
+        wandb.log({"pallet": wandb.Image(plt)}, step=step)
     plt.savefig("{}/{}".format(output_dir, title))
     plt.close()
 
