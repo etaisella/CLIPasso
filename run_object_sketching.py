@@ -160,7 +160,7 @@ if multiprocess:
     P = mp.Pool(ncpus)  # Generate pool of workers
 
 for seed in seeds:
-    wandb_name = f"{test_name}_{args.num_strokes}strokes_seed{seed}"
+    wandb_name = f"{test_name}"
     if multiprocess:
         P.apply_async(run, (seed, wandb_name))
     else:
