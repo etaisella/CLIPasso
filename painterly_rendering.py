@@ -197,11 +197,6 @@ def main(args):
 
         counter += 1
 
-    renderer.save_svg(args.output_dir, "final_svg")
-    path_svg = os.path.join(args.output_dir, "best_iter.svg")
-    utils.log_sketch_summary_final(
-        path_svg, args.use_wandb, args.device, best_iter, best_loss, "best total")
-
     return configs_to_save
 
 if __name__ == "__main__":
