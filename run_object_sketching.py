@@ -36,6 +36,8 @@ parser.add_argument("--multiprocess", type=int, default=0,
 ####### PIXEL ART ARGUMENTS #######
 parser.add_argument("--quantizeColors", type=int, default=0)
 parser.add_argument("--learnColors", type=int, default=0)
+parser.add_argument("--centroidLr", type=float, default=0.1)
+parser.add_argument("--centroidStep", type=int, default=100)
 parser.add_argument("--pixelArt", type=int, default=1)
 parser.add_argument("--canvasW", type=int, default=32)
 parser.add_argument("--canvasH", type=int, default=32)
@@ -120,7 +122,9 @@ def run(seed, wandb_name):
                             "--canvasH", str(int(args.canvasH)),
                             "--numColors", str(int(args.numColors)),
                             "--clip_fc_loss_weight", str(float(args.clip_fc_loss_weight)),
-                            "--perceptual_weight", str(float(args.perceptual_weight))])
+                            "--perceptual_weight", str(float(args.perceptual_weight)),
+                            "--centroidLr", str(float(args.centroidLr)),
+                            "--centroidStep", str(float(args.centroidStep))])
     if exit_code.returncode:
         sys.exit(1)
 
