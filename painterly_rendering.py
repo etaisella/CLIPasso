@@ -139,6 +139,7 @@ def main(args):
                 if args.pixelArt:
                     losses_dict_eval = loss_func(PAimage, inputs, renderer.get_color_parameters(
                     ), renderer.get_points_parans(), counter, optimizer, mode="eval")
+                    renderer.add_noise_to_weights()
                 else:
                     losses_dict_eval = loss_func(sketches, inputs, renderer.get_color_parameters(
                     ), renderer.get_points_parans(), counter, optimizer, mode="eval")
