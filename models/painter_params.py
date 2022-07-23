@@ -474,12 +474,14 @@ class PainterOptimizer:
                 elif name == "center_params":
                     param_to_optimize_centers = [param]
             self.points_optim = torch.optim.Adam(param_to_optimize_pixels, lr=self.points_lr)
-            self.scheduler = torch.optim.lr_scheduler.ExponentialLR(self.points_optim, gamma=0.8)
             self.centers_optim = torch.optim.Adam(param_to_optimize_centers, lr=self.color_center_lr)
         else:
             self.points_optim = torch.optim.Adam(self.renderer.parameters(), lr=self.points_lr)
         if self.optim_color:
             self.color_optim = torch.optim.Adam(self.renderer.set_color_parameters(), lr=self.color_lr)
+            
+        if self.args.lr_scheduler:
+            self.scheduler = torch.optim.lr_scheduler.ExponentialLR(self.points_optim, gamma=0.8)
 
     def update_lr(self, counter):
         if (counter + 1 % 200) == 0:
