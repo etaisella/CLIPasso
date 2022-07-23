@@ -484,7 +484,7 @@ class PainterOptimizer:
             self.scheduler = torch.optim.lr_scheduler.ExponentialLR(self.points_optim, gamma=0.8)
 
     def update_lr(self, counter):
-        if (((counter + 1) % 200) == 0) and (counter < 3000):
+        if (((counter + 1) % 300) == 0) and (counter < 3000):
             self.scheduler.step()
             print("Sched Step")
             print(self.scheduler.get_lr())
