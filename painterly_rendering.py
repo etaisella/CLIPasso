@@ -101,7 +101,7 @@ def main(args):
             epoch_range.refresh()
         renderer.set_random_noise(epoch)
         if args.lr_scheduler:
-            optimizer.update_lr(counter)
+            optimizer.update_lr(epoch)
 
         start = time.time()
         optimizer.zero_grad_()
