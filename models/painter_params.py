@@ -467,7 +467,7 @@ class PainterOptimizer:
         self.optim_color = args.force_sparse
 
     def init_optimizers(self):
-        
+        e
         if self.args.learnColors:
             for name, param in self.renderer.named_parameters():
                 if name == "pixelArtImg":
@@ -475,7 +475,7 @@ class PainterOptimizer:
                 elif name == "center_params":
                     param_to_optimize_centers = [param]
             self.points_optim = torch.optim.Adam(param_to_optimize_pixels, lr=self.points_lr)
-            self.scheduler = torch.optim.lr_scheduler.ExponentialLR(self.points_optim, gamma=0.9)
+            self.scheduler = torch.optim.lr_scheduler.ExponentialLR(self.points_optim, gamma=0.8)
             self.centers_optim = torch.optim.Adam(param_to_optimize_centers, lr=self.color_center_lr)
         else:
             self.points_optim = torch.optim.Adam(self.renderer.parameters(), lr=self.points_lr)
