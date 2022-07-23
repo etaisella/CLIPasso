@@ -484,7 +484,7 @@ class PainterOptimizer:
     def update_lr(self, counter):
         if (counter + 1 % 200) == 0:
                self.scheduler.step()
-        if self.lr_scheduler:
+        if self.args.lr_scheduler:
             new_lr = self.scheduler.get_lr()
             for param_group in self.points_optim.param_groups:
                 param_group["lr"] = new_lr
