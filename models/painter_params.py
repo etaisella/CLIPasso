@@ -106,7 +106,8 @@ class Painter(torch.nn.Module):
             if self.doColorQuantization:
                 self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
             else:
-                self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=self.scaleMin, max=self.scaleMax), requires_grad=True)
+                #elf.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=self.scaleMin, max=self.scaleMax), requires_grad=True)
+                self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=self.scaleMin, max=self.scaleMax)*0requires_grad=True)
             
     
     def descale(self, img):
