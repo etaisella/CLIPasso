@@ -467,6 +467,7 @@ class PainterOptimizer:
         self.optim_color = args.force_sparse
 
     def init_optimizers(self):
+        self.scheduler = torch.optim.ExponentialLR(optimizer, gamma=0.9)
         if self.args.learnColors:
             for name, param in self.renderer.named_parameters():
                 if name == "pixelArtImg":
@@ -481,9 +482,11 @@ class PainterOptimizer:
             self.color_optim = torch.optim.Adam(self.renderer.set_color_parameters(), lr=self.color_lr)
 
     def update_lr(self, counter):
-        new_lr = utils.get_epoch_lr(counter, self.args)
-        for param_group in self.points_optim.param_groups:
-            param_group["lr"] = new_lr
+        if (counter + 1 % 200) == 0:
+               self.scheduler.step()
+        #new_lr = utils.get_epoch_lr(counter, self.args)
+        #for param_group in self.points_optim.param_groups:
+        #    param_group["lr"] = new_lr
     
     def zero_grad_(self):
         self.points_optim.zero_grad()
