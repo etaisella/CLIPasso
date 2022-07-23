@@ -133,7 +133,7 @@ class Painter(torch.nn.Module):
     
     
     def get_PA_image(self):
-        self.pixelArtImg = self.pixelArtImg + torch.randn_like(self.pixelArtImg)
+        self.pixelArtImg.add_(torch.randn_like(self.pixelArtImg)*0.1)
         clamped = torch.clamp(self.pixelArtImg, self.scaleMin, self.scaleMax)
         descaled = self.descale(clamped)
         
