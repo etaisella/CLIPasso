@@ -467,7 +467,7 @@ class PainterOptimizer:
         self.optim_color = args.force_sparse
 
     def init_optimizers(self):
-        self.scheduler = torch.optim.ExponentialLR(optimizer, gamma=0.9)
+        self.scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.9)
         if self.args.learnColors:
             for name, param in self.renderer.named_parameters():
                 if name == "pixelArtImg":
