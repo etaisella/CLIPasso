@@ -131,9 +131,10 @@ class Painter(torch.nn.Module):
         clamped_centers = torch.clamp(self.center_params, 0.0, 1.0)
         return clamped_centers
     
-    
+    def add_noise_to_weights(self):
+        self.pixelArtImg.add_(torch.randn_like(self.pixelArtImg)*0.4)
+        
     def get_PA_image(self):
-        self.pixelArtImg.add_(torch.randn_like(self.pixelArtImg)*0.1)
         clamped = torch.clamp(self.pixelArtImg, self.scaleMin, self.scaleMax)
         descaled = self.descale(clamped)
         
