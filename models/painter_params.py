@@ -467,7 +467,6 @@ class PainterOptimizer:
         self.optim_color = args.force_sparse
 
     def init_optimizers(self):
-        e
         if self.args.learnColors:
             for name, param in self.renderer.named_parameters():
                 if name == "pixelArtImg":
