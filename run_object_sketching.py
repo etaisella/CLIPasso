@@ -22,7 +22,7 @@ parser.add_argument("--target_file", type=str,
                     help="target image file, located in <target_images>")
 parser.add_argument("--num_strokes", type=int, default=16,
                     help="number of strokes used to generate the sketch, this defines the level of abstraction.")
-parser.add_argument("--num_iter", type=int, default=4000,
+parser.add_argument("--num_iter", type=int, default=3000,
                     help="number of iterations")
 parser.add_argument("--fix_scale", type=int, default=0,
                     help="if the target image is not squared, it is recommended to fix the scale")
