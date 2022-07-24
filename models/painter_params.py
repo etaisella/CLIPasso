@@ -54,7 +54,7 @@ class Painter(torch.nn.Module):
 
         # attention related for strokes initialisation
         self.attention_init = args.attention_init
-        self.target_path = args.target
+        self.target_path = args.targete
         self.saliency_model = args.saliency_model
         self.xdog_intersec = args.xdog_intersec
         self.mask_object = args.mask_object_attention
@@ -92,7 +92,8 @@ class Painter(torch.nn.Module):
             resized_ref = np.zeros_like(Z)
             resized_ref[:] = Z[:]
             print(resized_ref)
-            resized_ref = resized_ref.resize((1, 3, self.canvas_height, self.canvas_width))
+            resized_ref = resized_ref.resize((3, self.canvas_height, self.canvas_width))
+            print(resized_ref)
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
             self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
