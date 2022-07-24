@@ -91,9 +91,7 @@ class Painter(torch.nn.Module):
             Z = np_image.reshape((-1,3))
             resized_ref = np.zeros_like(Z)
             resized_ref[:] = Z[:]
-            print(resized_ref)
             resized_ref = np.resize(resized_ref, (1, 3, self.canvas_height, self.canvas_width))
-            print(resized_ref)
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
             self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
@@ -112,7 +110,7 @@ class Painter(torch.nn.Module):
                 #elf.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=self.scaleMin, max=self.scaleMax), requires_grad=True)
                 #self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=self.scaleMin, max=self.scaleMax)*0, requires_grad=True)
                 print(resized_ref)
-                self.pixelArtImg = torch.nn.Parameter(torch.clamp((torch.tensor(resized_ref) * (self.scaleMax - self.scaleMin)) - self.scaleMax), requires_grad=True)
+                self.pixelArtImg = torch.nn.Parameter(torch.tensor(resized_ref) * (self.scaleMax - self.scaleMin)) - self.scaleMax, requires_grad=True)
             
     
     def descale(self, img):
