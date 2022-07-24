@@ -107,6 +107,8 @@ def main(args):
         optimizer.zero_grad_()
         
         if args.pixelArt:
+            if epoch == 2000:
+                renderer.do_quantization = 1
             PAimage = renderer.get_PA_image().to(args.device)
             losses_dict = loss_func(PAimage, inputs.detach(
             ), renderer.get_color_parameters(), renderer, counter, optimizer)
