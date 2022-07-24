@@ -110,8 +110,8 @@ class Painter(torch.nn.Module):
             else:
                 #elf.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=self.scaleMin, max=self.scaleMax), requires_grad=True)
                 #self.pixelArtImg = torch.nn.Parameter(torch.clamp(torch.randn(N, C, H, W), min=self.scaleMin, max=self.scaleMax)*0, requires_grad=True)
-                print(torch.unsqueeze(torch.tensor(resized_ref)).size())
-                self.pixelArtImg = torch.nn.Parameter(torch.unsqueeze(torch.tensor(resized_ref), -1) * (self.scaleMax - self.scaleMin) - self.scaleMax, requires_grad=True)
+                print(torch.unsqueeze(torch.tensor(resized_ref), 0).size())
+                self.pixelArtImg = torch.nn.Parameter(torch.unsqueeze(torch.tensor(resized_ref), 0) * (self.scaleMax - self.scaleMin) - self.scaleMax, requires_grad=True)
             
     
     def descale(self, img):
