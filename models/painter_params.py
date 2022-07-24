@@ -92,7 +92,7 @@ class Painter(torch.nn.Module):
             resized_ref = np.zeros_like(Z)
             resized_ref[:] = Z[:]
             print(resized_ref)
-            resized_ref = resized_ref.resize((3, self.canvas_height, self.canvas_width))
+            resized_ref = np.resize(resized_ref, (1, 3, self.canvas_height, self.canvas_width))
             print(resized_ref)
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
