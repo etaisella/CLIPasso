@@ -91,7 +91,7 @@ class Painter(torch.nn.Module):
             Z = np_image.reshape((-1,3))
             resized_ref = np.zeros_like(np_image)
             resized_ref[:] = np_image[:]
-            resized_ref = cv.resize(resized_ref, (self.canvas_height, self.canvas_width))
+            resized_ref = cv.resize(resized_ref, (self.canvas_height, self.canvas_width)).reshape((3, self.canvas_height, self.canvas_width))
             print(resized_ref.shape)
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
@@ -102,7 +102,7 @@ class Painter(torch.nn.Module):
             # initiating canvas
             N, C, H, W = 1, 3, self.canvas_height, self.canvas_width
             rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
-            rand_selected_colors = torch.unsqueeze((torch.squeeze(self.center_params[rand_idxs])).permute(2, 0, 1), 0)
+            rand_selected_colors = torch.unsqueeze((torch.squeeze(self.center_params[rand_idxs]), 0).permute(2, 0, 1), 0)
             rand_selected_colors = (rand_selected_colors * (self.scaleMax - self.scaleMin)) - self.scaleMax
             
             if self.doColorQuantization:
