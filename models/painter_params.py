@@ -89,9 +89,9 @@ class Painter(torch.nn.Module):
             # Color Quantization - Selecting colors
             np_image = (torch.squeeze(target_im).permute(1, 2, 0)).cpu().numpy()
             Z = np_image.reshape((-1,3))
-            resized = np.zeros_like(Z)
-            resized[:] = Z[:]
-            #resized_ref = .resize((1, 3, self.canvas_height, self.canvas_width))
+            resized_ref = np.zeros_like(Z)
+            resized_ref[:] = Z[:]
+            resized_ref = resized_ref.resize((1, 3, self.canvas_height, self.canvas_width))
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(Z, self.num_colors, None, criteria, 10 , cv.KMEANS_RANDOM_CENTERS)
             self.center_params = torch.unsqueeze(torch.unsqueeze(torch.tensor(centers), -1), -1).to(self.device)
