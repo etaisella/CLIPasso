@@ -110,7 +110,7 @@ def main(args):
             if epoch == 2000:
                 renderer.doColorQuantization = 1
                 for g in optimizer.points_optim.param_groups:
-                    g['lr'] = 1.5
+                    g['lr'] = 2.0
 
             PAimage = renderer.get_PA_image().to(args.device)
             losses_dict = loss_func(PAimage, inputs.detach(
