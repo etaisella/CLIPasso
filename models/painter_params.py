@@ -54,7 +54,7 @@ class Painter(torch.nn.Module):
 
         # attention related for strokes initialisation
         self.attention_init = args.attention_init
-        self.target_path = args.targete
+        self.target_path = args.target
         self.saliency_model = args.saliency_model
         self.xdog_intersec = args.xdog_intersec
         self.mask_object = args.mask_object_attention
