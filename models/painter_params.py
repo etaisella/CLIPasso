@@ -105,8 +105,8 @@ class Painter(torch.nn.Module):
             rand_idxs = torch.randint(low=0, high=self.num_colors -1, size=(H, W))
             
             if self.doColorQuantization:
-                rand_selected_colors = torch.unsqueeze((torch.squeeze(self.center_params[rand_idxs]), 0).permute(2, 0, 1), 0)
-                rand_selected_colors = (rand_selected_colors * (self.scaleMax - self.scaleMin)) - self.scaleMax
+                #rand_selected_colors = torch.unsqueeze((torch.squeeze(self.center_params[rand_idxs]), 0).permute(2, 0, 1), 0)
+                #rand_selected_colors = (rand_selected_colors * (self.scaleMax - self.scaleMin)) - self.scaleMax
                 #self.pixelArtImg = torch.nn.Parameter(rand_selected_colors, requires_grad=True)
                 self.pixelArtImg = torch.nn.Parameter(torch.unsqueeze(torch.tensor(resized_ref), 0).permute((0, 3, 1, 2)) * (self.scaleMax - self.scaleMin) - self.scaleMax, requires_grad=True)
             else:
