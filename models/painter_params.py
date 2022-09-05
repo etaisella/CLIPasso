@@ -1,7 +1,6 @@
 import random
 import CLIP_.clip as clip
 import numpy as np
-import pydiffvg
 import sketch_utils as utils
 import torch
 import torch.nn as nn
@@ -159,7 +158,8 @@ class Painter(torch.nn.Module):
                 stroke_color = torch.tensor([0.0, 0.0, 0.0, 1.0])
                 path = self.get_path()
                 self.shapes.append(path)
-                path_group = pydiffvg.ShapeGroup(shape_ids = torch.tensor([len(self.shapes) - 1]),
+                path_group = 
+                .ShapeGroup(shape_ids = torch.tensor([len(self.shapes) - 1]),
                                                     fill_color = None,
                                                     stroke_color = stroke_color)
                 self.shape_groups.append(path_group)
