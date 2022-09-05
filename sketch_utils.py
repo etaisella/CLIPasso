@@ -4,7 +4,6 @@ import imageio
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import pydiffvg
 import skimage
 import skimage.io
 import torch
@@ -86,28 +85,7 @@ def log_input(use_wandb, epoch, inputs, output_dir):
 
 
 def log_sketch_summary_final(path_svg, use_wandb, device, epoch, loss, title):
-    canvas_width, canvas_height, shapes, shape_groups = load_svg(path_svg)
-    _render = pydiffvg.RenderFunction.apply
-    scene_args = pydiffvg.RenderFunction.serialize_scene(
-        canvas_width, canvas_height, shapes, shape_groups)
-    img = _render(canvas_width,  # width
-                  canvas_height,  # height
-                  2,   # num_samples_x
-                  2,   # num_samples_y
-                  0,   # seed
-                  None,
-                  *scene_args)
-
-    img = img[:, :, 3:4] * img[:, :, :3] + \
-        torch.ones(img.shape[0], img.shape[1], 3,
-                   device=device) * (1 - img[:, :, 3:4])
-    img = img[:, :, :3]
-    plt.imshow(img.cpu().numpy())
-    plt.axis("off")
-    plt.title(f"{title} best res [{epoch}] [{loss}.]")
-    if use_wandb:
-        wandb.log({title: wandb.Image(plt)})
-    plt.close()
+    return 0;
 
 
 def log_sketch_summary(sketch, title, use_wandb):
