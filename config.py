@@ -3,7 +3,6 @@ import os
 import random
 
 import numpy as np
-import pydiffvg
 import torch
 import wandb
 
