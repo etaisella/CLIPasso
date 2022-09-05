@@ -107,7 +107,7 @@ def main(args):
         optimizer.zero_grad_()
         
         if args.pixelArt:
-            if epoch == 2000:
+            if epoch == 100:
                 renderer.doColorQuantization = 1
                 for g in optimizer.points_optim.param_groups:
                     g['lr'] = 2.0
