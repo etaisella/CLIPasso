@@ -143,8 +143,6 @@ def parse_arguments():
             torch.cuda.is_available() and torch.cuda.device_count() > 0) else "cpu")
     else:
         args.device = torch.device("cpu")
-    pydiffvg.set_use_gpu(torch.cuda.is_available() and args.use_gpu)
-    pydiffvg.set_device(args.device)
     return args
 
 
