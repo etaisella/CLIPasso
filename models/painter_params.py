@@ -170,12 +170,7 @@ class Painter(torch.nn.Module):
 
             for i in range(num_paths_exists, self.num_paths):
                 stroke_color = torch.tensor([0.0, 0.0, 0.0, 1.0])
-                path = self.get_path()
-                self.shapes.append(path)
-                path_group = pydiffvg.ShapeGroup(shape_ids = torch.tensor([len(self.shapes) - 1]),
-                                                    fill_color = None,
-                                                    stroke_color = stroke_color)
-                self.shape_groups.append(path_group)        
+                path = self.get_path()    
             self.optimize_flag = [True for i in range(len(self.shapes))]
         
         img = self.render_warp()
